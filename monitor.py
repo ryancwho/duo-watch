@@ -144,6 +144,27 @@ def self_test():
     return bool(pos)
 
 
+def positive_test():
+    """End-to-end proof from wherever this runs: Apple endpoint -> parser -> ntfy."""
+    hits = {}
+    for a in ["MG6J4ZA/A", "MG6P4ZA/A"]:  # iPhone 17 anchors
+        for p, where in pickup_hits(a).items():
+            hits.setdefault(p, set()).update(where)
+    if hits:
+        p, where = sorted(hits.items())[0]
+        notify("TEST: Apple listener works",
+               f"Read live Apple HK pickup data: iPhone 17 {p} in stock at {'; '.join(sorted(where))}. "
+               f"{len(hits)} iPhone 17 model(s) seen in total. A real iPhone Duo alert will look like this, titled IN STOCK.",
+               priority="high", tags="white_check_mark")
+    else:
+        notify("TEST: listener saw no stock",
+               "Apple answered, but no iPhone 17 pickup stock was listed right now. The parser may be stale or iPhone 17 is sold out; rerun later.",
+               priority="high", tags="warning")
+    # Duo status right now, for reference
+    d = duo_hits()
+    print("Duo now:", {MODELS[k]: v for k, v in d.items()} or "none", flush=True)
+
+
 def cycle(st, with_delivery):
     t = now()
     hits = duo_hits()
@@ -185,8 +206,12 @@ def heartbeat(st):
     if t.hour >= 8 and st.get("last_heartbeat") != today:
         sts = st["stats"]
         seen = "; ".join(sts["seen"][-5:]) or "nothing"
+        try:
+            pc = "positive control OK (iPhone 17 stock visible)" if pickup_hits(POSITIVE_CONTROL) else "positive control saw NO stock - check"
+        except Blocked as e:
+            pc = f"positive control failed ({e})"
         notify("Duo watch heartbeat",
-               f"{sts['cycles']} checks, {sts['errors']} errors since last heartbeat. Seen: {seen}. Baseline delivery {st['baseline']}.",
+               f"{sts['cycles']} checks, {sts['errors']} errors since last heartbeat. Seen: {seen}. Baseline delivery {st['baseline']}. {pc}.",
                priority="min", tags="heartbeat")
         st["last_heartbeat"] = today
         st["stats"] = {"cycles": 0, "errors": 0, "seen": []}
@@ -232,4 +257,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if os.environ.get("TEST_POSITIVE") == "1":
+        positive_test()
+    else:
+        main()
