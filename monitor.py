@@ -19,10 +19,10 @@ MODELS = {
     "MK2K4ZA/A": "2TB Star White",   "MK2L4ZA/A": "2TB Night Sky",
 }
 POSITIVE_CONTROL = "MG6K4ZA/A"  # iPhone 17 256GB White, normally in stock
-TARGETS = [p.strip() for p in os.environ.get("TARGETS", ",".join(MODELS)).split(",") if p.strip()]
+TARGETS = [p.strip() for p in (os.environ.get("TARGETS") or ",".join(MODELS)).split(",") if p.strip()] or list(MODELS)
 TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
 STOP_DATE = os.environ.get("STOP_DATE", "2027-01-31")
-LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES", "0"))  # 0 = single check
+LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES") or "0")  # 0 = single check
 STATE_FILE = os.environ.get("STATE_FILE", "state/state.json")
 LOG_FILE = os.environ.get("LOG_FILE", "state/log.csv")
 
@@ -71,7 +71,7 @@ def summary(parts):
     q = "&".join(f"parts.{i}={p}" for i, p in enumerate(parts))
     d = get_json(f"/sba/availability-message?{q}")
     out = {}
-    for c in d["body"]["content"]:
+    for c in (d.get("body") or {}).get("content") or []:
         msgs = (c.get("deliveryMessage") or {}).get("deliveryOptionMessages") or [{}]
         out[c["partNumber"]] = {
             "count": int(c.get("partAvailableStoresCount") or 0),
