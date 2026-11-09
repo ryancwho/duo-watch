@@ -374,15 +374,123 @@ def wait_seconds():
     return max(60, base + random.uniform(-45, 45))
 
 
+# ---------- run-to-run handover (GitHub's schedule is unreliable and Actions has outages) ----------
+import subprocess
+RUN_ID = int(os.environ.get("GITHUB_RUN_ID") or 0)
+REPO = os.environ.get("GITHUB_REPOSITORY", "")
+HANDOVER_FROM = int(os.environ.get("HANDOVER_FROM") or 0)
+CHAIN = LOOP_MINUTES >= 10 and RUN_ID > 0   # runs of 10+ min hand over to a full 340-min run
+HANDOVER_LEAD_S = 10 * 60   # start the next run this long before our own loop ends
+HANDOVER_GRACE_S = 8 * 60   # keep watching (and retrying) this long past the loop end if the next run won't start
+
+
+def gh_json(args):
+    try:
+        out = subprocess.run(["gh", *args], capture_output=True, text=True, timeout=60)
+        return json.loads(out.stdout) if out.returncode == 0 and out.stdout.strip() else None
+    except Exception as e:
+        print("gh failed:", e, flush=True)
+        return None
+
+
+def run_info(run_id):
+    return gh_json(["api", f"repos/{REPO}/actions/runs/{run_id}"]) or {}
+
+
+def active_watch_runs():
+    """Other duo-watch runs that are queued or running (ids)."""
+    ids = set()
+    for status in ("in_progress", "queued"):
+        d = gh_json(["api", f"repos/{REPO}/actions/workflows/watch.yml/runs?status={status}&per_page=20"]) or {}
+        ids |= {r["id"] for r in d.get("workflow_runs", []) if r["id"] != RUN_ID}
+    return ids
+
+
+def set_output(k, v):
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"{k}={v}\n")
+
+
+def take_over_or_skip():
+    """Return True if this run should watch. Successors wait for their predecessor to finish;
+    backup (schedule/manual) runs stand down if an older watcher is already active."""
+    if not RUN_ID or not REPO:
+        return True
+    if HANDOVER_FROM:
+        t0 = time.time()
+        while time.time() - t0 < 20 * 60:
+            if run_info(HANDOVER_FROM).get("status") == "completed":
+                break
+            time.sleep(15)
+        subprocess.run(f'git -C "{DATA}" pull -q --rebase origin data', shell=True, timeout=90)
+        print(f"Took over from run {HANDOVER_FROM}", flush=True)
+        return True
+    older = [i for i in active_watch_runs() if i < RUN_ID]
+    if older:
+        print(f"Another watcher is active ({older}); standing down.", flush=True)
+        set_output("skipped", "true")
+        return False
+    print("No active watcher found; this run takes over.", flush=True)
+    return True
+
+
+class Handover:
+    """Start the next run and only stop once GitHub has actually given it a runner."""
+    def __init__(self):
+        self.pending, self.sent_at, self.tries, self.done, self.warned = None, 0, 0, False, False
+
+    def step(self):
+        if self.done:
+            return True
+        if self.pending is None:
+            before = time.time()
+            r = subprocess.run(["gh", "workflow", "run", "watch.yml", "--repo", REPO,
+                                "-f", "loop_minutes=340", "-f", f"handover_from={RUN_ID}"],
+                               capture_output=True, text=True, timeout=60)
+            self.tries += 1
+            print(f"handover dispatch try {self.tries}: rc={r.returncode} {r.stderr.strip()[:200]}", flush=True)
+            if r.returncode != 0:
+                return False
+            time.sleep(10)
+            d = gh_json(["api", f"repos/{REPO}/actions/workflows/watch.yml/runs?event=workflow_dispatch&per_page=10"]) or {}
+            new = [x["id"] for x in d.get("workflow_runs", []) if x["id"] > RUN_ID]
+            self.pending, self.sent_at = (max(new) if new else -1), before
+            return False
+        if self.pending == -1:  # dispatched but not visible yet
+            d = gh_json(["api", f"repos/{REPO}/actions/workflows/watch.yml/runs?event=workflow_dispatch&per_page=10"]) or {}
+            new = [x["id"] for x in d.get("workflow_runs", []) if x["id"] > RUN_ID]
+            if new:
+                self.pending = max(new)
+        else:
+            info = run_info(self.pending)
+            if info.get("status") == "completed":
+                print(f"next run {self.pending} ended early ({info.get('conclusion')}); retrying", flush=True)
+                self.pending = None
+                return False
+            jobs = gh_json(["api", f"repos/{REPO}/actions/runs/{self.pending}/jobs"]) or {}
+            if any(j.get("status") == "in_progress" for j in jobs.get("jobs", [])):
+                print(f"next run {self.pending} is running; handing over", flush=True)
+                self.done = True
+                return True
+        if time.time() - self.sent_at > 5 * 60:
+            print("next run did not start within 5 min; retrying", flush=True)
+            self.pending = None
+        return False
+
+
 def main():
     if f"{now():%Y-%m-%d}" > STOP_DATE:
         print("Past STOP_DATE; exiting.")
+        return
+    if not take_over_or_skip():
         return
     st = load_state()
     close_after_gap(st)
     if not self_test():
         notify("Duo watch self-test warning", "iPhone 17 positive control showed no stock. Watching anyway.", priority="low")
     deadline = time.time() + LOOP_MINUTES * 60
+    ho = Handover() if CHAIN else None
     fails, backoff, n = 0, 120, 0
     while True:
         try:
@@ -406,11 +514,20 @@ def main():
                 save_state(st)
                 sys.exit(1)
         save_state(st)
-        if time.time() >= deadline:
-            break
         pause = wait_seconds() if fails == 0 else min(backoff := backoff * 2, 1800)
-        if time.time() + pause >= deadline:
-            break
+        if ho is None:
+            if time.time() >= deadline or time.time() + pause >= deadline:
+                break
+        elif time.time() >= deadline - HANDOVER_LEAD_S:
+            pause = min(pause, 60)
+            if ho.step():
+                break
+            if time.time() >= deadline + HANDOVER_GRACE_S:
+                notify("Duo watch: handover failing",
+                       f"GitHub would not start the next watcher run after {ho.tries} tries (GitHub Actions may be down). "
+                       "The backup schedule will keep trying. If the report has not updated within 1 hour, open GitHub Actions "
+                       "> duo-watch > Run workflow.", priority="high", tags="warning", click=REPORT_URL)
+                break
         end = time.time() + pause
         while time.time() < end:
             ring_tick(st, still_in_stock=lambda p: p in st["alerted"])

@@ -8,10 +8,12 @@ on:
       loop_minutes:
         description: "Minutes to keep watching (0 = single check)"
         default: "340"
+      handover_from:
+        description: "Internal: run id this run takes over from (leave empty)"
+        default: ""
 
-concurrency:
-  group: duo-watch
-  cancel-in-progress: false
+# No concurrency group: each run starts its successor before it ends and checks it really started;
+# the successor waits for it to finish. Backup/manual runs stand down if a watcher is already active.
 
 permissions:
   contents: write
@@ -33,7 +35,10 @@ jobs:
           git -C data config user.name "duo-watch bot"
           git -C data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Watch Apple HK pickup stock
+        id: watch
         env:
+          GH_TOKEN: ${{ github.token }}
+          HANDOVER_FROM: ${{ github.event.inputs.handover_from }}
           PUBLISH: "1"
           RING_TARGETS: ${{ vars.RING_TARGETS }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
@@ -43,7 +48,7 @@ jobs:
           DATA_DIR: data
         run: python3 monitor.py
       - name: Update report and save data
-        if: always()
+        if: always() && steps.watch.outputs.skipped != 'true'
         run: |
           PYTHONPATH=. python3 report.py data
           cd data
@@ -51,13 +56,6 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -qm "data $(TZ=Asia/Hong_Kong date '+%Y-%m-%d %H:%M') HKT"
           for i in 1 2 3; do git pull -q --rebase origin data && git push -q origin HEAD:data && break; sleep 5; done
-      - name: Start the next run (self-chaining)
-        if: success() && (github.event.inputs.loop_minutes == '' || github.event.inputs.loop_minutes == '340' || github.event_name == 'schedule')
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          [ "$(TZ=Asia/Hong_Kong date +%F)" \> "2027-01-31" ] && exit 0
-          gh workflow run watch.yml --repo "$GITHUB_REPOSITORY" -f loop_minutes=340
       - name: Tell me if the watcher crashed
         if: failure()
         env:
