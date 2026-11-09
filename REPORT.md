@@ -1,12 +1,12 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-09 10:26 HKT. All times HKT.
+Updated 2026-11-09 10:28 HKT. All times HKT.
 
 A **restock** here is one model becoming available for same-day pickup at one store, from first sighting until it disappears. A **wave** is a group of restocks starting within 10 minutes of each other. Apple does not publish unit quantities, so “how many” is counted in store × model slots, not phones.
 
 ## Coverage
 
-- Checks: 431 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 10:25:45.
+- Checks: 433 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 10:28:04.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 1 — 11-08 18:05→19:52.
 - Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per check reduce, but cannot rule out, missed models when a store has many models at once.
@@ -62,7 +62,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 | Model | Restocks | Stores | Median minutes |
 |---|---|---|---|
-| 256GB Star White | 1 | ifc mall | 1 |
+| 256GB Star White | 1 | ifc mall | 2 |
 | 256GB Night Sky | 0 | | |
 | 512GB Star White | 12 | Canton Road, Causeway Bay, Festival Walk, New Town Plaza, apm Hong Kong, ifc mall | 1 |
 | 512GB Night Sky | 0 | | |
@@ -81,7 +81,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 | Started | Slots | Stores | Models | Longest (min) |
 |---|---|---|---|---|
-| 2026-11-09 10:25 | 1 | ifc mall | 256GB Star White | 1 |
+| 2026-11-09 10:25 | 1 | ifc mall | 256GB Star White | 2 |
 | 2026-11-09 09:48 | 3 | Canton Road, Causeway Bay, New Town Plaza | 512GB Star White | 8 |
 | 2026-11-09 08:57 | 1 | ifc mall | 512GB Star White | 17 |
 | 2026-11-09 08:41 | 1 | Canton Road | 512GB Star White | 1 |
@@ -94,7 +94,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 | Start | End | Minutes | Model | Store | Note |
 |---|---|---|---|---|---|
-| 2026-11-09 10:25 | (still in stock) | 1 | 256GB Star White | ifc mall | ongoing |
+| 2026-11-09 10:25 | (still in stock) | 2 | 256GB Star White | ifc mall | ongoing |
 | 2026-11-09 10:02 | 2026-11-09 10:08 | 6 | 512GB Star White | Causeway Bay | v1 log (only Star White 512GB/1TB/2TB watched) |
 | 2026-11-09 09:52 | 2026-11-09 10:00 | 8 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
 | 2026-11-09 09:48 | 2026-11-09 09:48 | 1 | 512GB Star White | New Town Plaza | v1 log (only Star White 512GB/1TB/2TB watched) |
