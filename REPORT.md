@@ -1,0 +1,109 @@
+# iPhone Duo restock trend — Apple Store Hong Kong
+
+Updated 2026-11-09 10:25 HKT. All times HKT.
+
+A **restock** here is one model becoming available for same-day pickup at one store, from first sighting until it disappears. A **wave** is a group of restocks starting within 10 minutes of each other. Apple does not publish unit quantities, so “how many” is counted in store × model slots, not phones.
+
+## Coverage
+
+- Checks: 430 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 10:22:00.
+- Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
+- Monitoring gaps over 20 min in the last 7 days: 1 — 11-08 18:05→19:52.
+- Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per check reduce, but cannot rule out, missed models when a store has many models at once.
+
+## Summary
+
+- Restocks recorded: **12** in **7** waves.
+- Typical time in stock: median 1 min (range 1–17).
+
+## By hour of day
+
+Restocks starting in each hour, by capacity. “Days watched” = days with at least one check in that hour.
+
+| Hour | 256GB | 512GB | 1TB | 2TB | Total | Days watched | Per watched day |
+|---|---|---|---|---|---|---|---|
+| 00:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 01:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 02:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 03:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 04:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 05:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 06:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 07:00 |  | 5 |  |  | 5 █████ | 1 | 5.00 |
+| 08:00 |  | 4 |  |  | 4 ████ | 1 | 4.00 |
+| 09:00 |  | 2 |  |  | 2 ██ | 1 | 2.00 |
+| 10:00 |  | 1 |  |  | 1 █ | 1 | 1.00 |
+| 11:00 |  |  |  |  | 0  | 0 | – |
+| 12:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 13:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 14:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 15:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 16:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 17:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 18:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 19:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 20:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 21:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 22:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 23:00 |  |  |  |  | 0  | 1 | 0.00 |
+
+## By store
+
+| Store | Restocks | 256GB | 512GB | 1TB | 2TB | Median minutes in stock |
+|---|---|---|---|---|---|---|
+| Canton Road | 4 |  | 4 |  |  | 2 |
+| Festival Walk | 2 |  | 2 |  |  | 2 |
+| New Town Plaza | 2 |  | 2 |  |  | 1 |
+| Causeway Bay | 2 |  | 2 |  |  | 6 |
+| apm Hong Kong | 1 |  | 1 |  |  | 1 |
+| ifc mall | 1 |  | 1 |  |  | 17 |
+
+## By model
+
+| Model | Restocks | Stores | Median minutes |
+|---|---|---|---|
+| 256GB Star White | 0 | | |
+| 256GB Night Sky | 0 | | |
+| 512GB Star White | 12 | Canton Road, Causeway Bay, Festival Walk, New Town Plaza, apm Hong Kong, ifc mall | 1 |
+| 512GB Night Sky | 0 | | |
+| 1TB Star White | 0 | | |
+| 1TB Night Sky | 0 | | |
+| 2TB Star White | 0 | | |
+| 2TB Night Sky | 0 | | |
+
+## By day
+
+| Date | Waves | Restocks | 256GB | 512GB | 1TB | 2TB |
+|---|---|---|---|---|---|---|
+| 2026-11-09 | 7 | 12 |  | 12 |  |  |
+
+## Waves (newest first)
+
+| Started | Slots | Stores | Models | Longest (min) |
+|---|---|---|---|---|
+| 2026-11-09 09:48 | 3 | Canton Road, Causeway Bay, New Town Plaza | 512GB Star White | 8 |
+| 2026-11-09 08:57 | 1 | ifc mall | 512GB Star White | 17 |
+| 2026-11-09 08:41 | 1 | Canton Road | 512GB Star White | 1 |
+| 2026-11-09 08:27 | 1 | Canton Road | 512GB Star White | 2 |
+| 2026-11-09 07:54 | 4 | Canton Road, Causeway Bay, Festival Walk, apm Hong Kong | 512GB Star White | 2 |
+| 2026-11-09 07:42 | 1 | New Town Plaza | 512GB Star White | 1 |
+| 2026-11-09 07:27 | 1 | Festival Walk | 512GB Star White | 1 |
+
+## All restocks, last 7 days (newest first)
+
+| Start | End | Minutes | Model | Store | Note |
+|---|---|---|---|---|---|
+| 2026-11-09 10:02 | 2026-11-09 10:08 | 6 | 512GB Star White | Causeway Bay | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 09:52 | 2026-11-09 10:00 | 8 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 09:48 | 2026-11-09 09:48 | 1 | 512GB Star White | New Town Plaza | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 08:57 | 2026-11-09 09:14 | 17 | 512GB Star White | ifc mall | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 08:41 | 2026-11-09 08:41 | 1 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 08:27 | 2026-11-09 08:29 | 2 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 08:03 | 2026-11-09 08:03 | 1 | 512GB Star White | Causeway Bay | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 07:58 | 2026-11-09 08:00 | 2 | 512GB Star White | Festival Walk | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 07:56 | 2026-11-09 07:56 | 1 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 07:54 | 2026-11-09 07:54 | 1 | 512GB Star White | apm Hong Kong | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 07:42 | 2026-11-09 07:42 | 1 | 512GB Star White | New Town Plaza | v1 log (only Star White 512GB/1TB/2TB watched) |
+| 2026-11-09 07:27 | 2026-11-09 07:27 | 1 | 512GB Star White | Festival Walk | v1 log (only Star White 512GB/1TB/2TB watched) |
+
+Raw data: `events.csv` (one row per restock) and `polls.csv` (one row per check) on this branch.

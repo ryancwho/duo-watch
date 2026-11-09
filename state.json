@@ -1,0 +1,11 @@
+{
+ "alerted": [],
+ "baseline": "2027-01-23",
+ "last_heartbeat": "2026-11-09",
+ "last_poll": "2026-11-09T10:22:00+08:00",
+ "open": {},
+ "stats": {
+  "cycles": 0,
+  "errors": 0
+ }
+}
