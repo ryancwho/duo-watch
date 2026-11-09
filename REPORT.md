@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-09 20:42 HKT (last check 20:40). All times HKT.
+Updated 2026-11-09 20:50 HKT (last check 20:50). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,9 +8,11 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 635 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 20:40:21.
+- Checks: 640 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 20:50:23.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
-- Monitoring gaps over 20 min in the last 7 days: 2 — 11-08 18:05→19:52; 11-09 11:23→14:52.
+- Monitoring gaps over 20 min in the last 7 days: 2.
+  - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
+  - 11-09 11:23 → 11-09 14:52 (209 min): no watcher run active on GitHub (Apple not involved).
 - Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per check reduce, but cannot rule out, missed models when a store has many models at once.
 
 ## Summary
@@ -20,34 +22,34 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## By hour of day
 
-Restock postings starting in each hour, by capacity (counts of postings, not phones). “Days watched” = days with at least one check in that hour.
+Restock postings starting in each hour, by capacity (counts of postings, not phones). “Hours watched” is the total time this clock hour was actually monitored, summed over all days, so gaps and partial first/last days count only for the minutes really watched.
 
-| Hour | 256GB | 512GB | 1TB | 2TB | Total postings | Days watched | Postings per watched day |
+| Hour | 256GB | 512GB | 1TB | 2TB | Total postings | Hours watched | Postings per watched hour |
 |---|---|---|---|---|---|---|---|
-| 00:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 01:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 02:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 03:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 04:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 05:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 06:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 07:00 |  | 5 |  |  | 5 █████ | 1 | 5.00 |
-| 08:00 |  | 4 |  |  | 4 ████ | 1 | 4.00 |
-| 09:00 |  | 2 |  |  | 2 ██ | 1 | 2.00 |
-| 10:00 | 1 | 1 |  |  | 2 ██ | 1 | 2.00 |
-| 11:00 |  | 1 |  |  | 1 █ | 1 | 1.00 |
-| 12:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 13:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 14:00 |  |  |  |  | 0  | 2 | 0.00 |
-| 15:00 | 1 |  |  |  | 1 █ | 2 | 0.50 |
-| 16:00 |  |  |  |  | 0  | 2 | 0.00 |
-| 17:00 |  |  |  |  | 0  | 2 | 0.00 |
-| 18:00 | 1 |  |  |  | 1 █ | 2 | 0.50 |
-| 19:00 |  |  |  |  | 0  | 2 | 0.00 |
-| 20:00 |  |  |  |  | 0  | 2 | 0.00 |
-| 21:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 22:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 23:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 00:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 01:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 02:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 03:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 04:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 05:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 06:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 07:00 |  | 5 |  |  | 5 █████ | 1.0 | 5.00 |
+| 08:00 |  | 4 |  |  | 4 ████ | 1.0 | 4.00 |
+| 09:00 |  | 2 |  |  | 2 ██ | 1.0 | 2.00 |
+| 10:00 | 1 | 1 |  |  | 2 ██ | 1.0 | 2.00 |
+| 11:00 |  | 1 |  |  | 1 █ | 0.6 | 1.56 |
+| 12:00 |  |  |  |  | 0  | 0.8 | 0.00 |
+| 13:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 14:00 |  |  |  |  | 0  | 1.1 | 0.00 |
+| 15:00 | 1 |  |  |  | 1 █ | 2.0 | 0.50 |
+| 16:00 |  |  |  |  | 0  | 2.0 | 0.00 |
+| 17:00 |  |  |  |  | 0  | 2.0 | 0.00 |
+| 18:00 | 1 |  |  |  | 1 █ | 1.3 | 0.75 |
+| 19:00 |  |  |  |  | 0  | 1.1 | 0.00 |
+| 20:00 |  |  |  |  | 0  | 1.9 | 0.00 |
+| 21:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 22:00 |  |  |  |  | 0  | 1.0 | 0.00 |
+| 23:00 |  |  |  |  | 0  | 1.0 | 0.00 |
 
 ## By store
 
