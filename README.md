@@ -2,11 +2,12 @@
 
 Watches Apple Store Hong Kong same-day pickup stock for all 8 iPhone Duo models, records every restock, and pushes phone alerts (ntfy) only for the alert models. Watch and alert only: no login, no bag, no checkout.
 
-- **Trend report:** [`REPORT.md` on the `data` branch](https://github.com/ryancwho/duo-watch/blob/data/REPORT.md), refreshed after every run (about hourly): restocks by hour of day, store, model and day, plus restock waves.
+- **Trend report:** [`REPORT.md` on the `data` branch](https://github.com/ryancwho/duo-watch/blob/data/REPORT.md), rebuilt within about a minute of any posting appearing or disappearing, and at least every 10 minutes: restocks by hour of day, store, model and day, plus restock waves.
 - **Raw data (data branch):** `events.csv` one row per restock (model × store, start, end, minutes); `polls.csv` one row per check (coverage).
-- **Phone alerts:** default 1TB and 2TB, Star White and Night Sky. Change with repo variable `ALERT_TARGETS` (comma-separated part numbers).
+- **Phone alerts:** 1TB and 2TB, Star White and Night Sky (repo variable `ALERT_TARGETS`). 1TB Star White (`RING_TARGETS`) gets a ⭐🚨 alert repeated every 30 s, up to 10 times, until you tap "Got it - stop ringing" or the posting disappears.
+- **Counts are restock postings, not phones:** batch size per posting is unknown.
 - **Daily 08:00 HKT report notification:** yesterday's restock count, busiest hours, positive-control result.
-- **Test:** Actions → test-alert → Run workflow.
+- **Test:** Actions → test-alert → Run workflow → choose ring or listener.
 - **Cadence:** ~2 min 06:30–23:30 HKT, ~10 min overnight; runs of 55 min chained by a 15-minute schedule. Stops after 2027-01-31, or Actions → duo-watch → Disable workflow.
 
 | Part | Model |

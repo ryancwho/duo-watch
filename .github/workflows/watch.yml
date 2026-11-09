@@ -27,8 +27,14 @@ jobs:
         with:
           ref: data
           path: data
+      - name: Git identity for live data pushes
+        run: |
+          git -C data config user.name "duo-watch bot"
+          git -C data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Watch Apple HK pickup stock
         env:
+          PUBLISH: "1"
+          RING_TARGETS: ${{ vars.RING_TARGETS }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           ALERT_TARGETS: ${{ vars.ALERT_TARGETS }}
           LOOP_MINUTES: ${{ github.event.inputs.loop_minutes || '55' }}
@@ -40,8 +46,6 @@ jobs:
         run: |
           PYTHONPATH=. python3 report.py data
           cd data
-          git config user.name "duo-watch bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --cached --quiet && exit 0
           git commit -qm "data $(TZ=Asia/Hong_Kong date '+%Y-%m-%d %H:%M') HKT"

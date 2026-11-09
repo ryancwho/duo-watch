@@ -32,7 +32,7 @@ def main():
         part, store = k.split("|", 1)
         st = datetime.fromisoformat(w["start"]).replace(tzinfo=None)
         ls = datetime.fromisoformat(w["last_seen"]).replace(tzinfo=None)
-        ongoing.append({"start_hkt": st.strftime(FMT), "end_hkt": "(still in stock)",
+        ongoing.append({"start_hkt": st.strftime(FMT), "end_hkt": "(still live)",
                         "minutes": str(max(1, round((ls - st).total_seconds() / 60))),
                         "part": part, "model": MODELS.get(part, part), "store": store, "note": "ongoing"})
     allev = sorted(events + ongoing, key=lambda r: r["start_hkt"])
@@ -61,11 +61,14 @@ def main():
     L = []
     now = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(hours=8)
     L.append("# iPhone Duo restock trend — Apple Store Hong Kong\n")
-    L.append(f"Updated {now:%Y-%m-%d %H:%M} HKT. All times HKT.\n")
-    L.append("A **restock** here is one model becoming available for same-day pickup at one store, "
-             "from first sighting until it disappears. A **wave** is a group of restocks starting within "
-             f"{WAVE_GAP_MIN} minutes of each other. Apple does not publish unit quantities, so “how many” is counted in "
-             "store × model slots, not phones.\n")
+    L.append(f"Updated {now:%Y-%m-%d %H:%M} HKT (last check {ok[-1]['time_hkt'][11:16] if ok else '–'}). All times HKT.\n")
+    L.append("**How to read the counts.** Every number below counts **restock postings**, not phones. "
+             "A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays "
+             "until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is "
+             "unknown**, because Apple publishes no quantities. One posting may be one phone or many.\n")
+    L.append(f"A **wave** is a group of postings that start within {WAVE_GAP_MIN} minutes of each other (for example, "
+             "several stores going live together). **Minutes listed** is how long a posting stayed online; a longer "
+             "listing hints at a bigger batch or weaker demand, but is not a unit count.\n")
 
     L.append("## Coverage\n")
     if ok:
@@ -80,16 +83,18 @@ def main():
              "check reduce, but cannot rule out, missed models when a store has many models at once.\n")
 
     L.append("## Summary\n")
-    L.append(f"- Restocks recorded: **{len(allev)}** in **{len(waves)}** waves"
-             + (f"; {len(ongoing)} still in stock now." if ongoing else "."))
+    L.append(f"- Restock postings recorded: **{len(allev)}** (batch sizes unknown), grouped into **{len(waves)}** waves"
+             + (f"; {len(ongoing)} posting(s) still live now." if ongoing else "."))
     if allev:
         mins = sorted(int(e["minutes"]) for e in allev)
-        L.append(f"- Typical time in stock: median {mins[len(mins)//2]} min (range {mins[0]}–{mins[-1]}).")
+        L.append(f"- Minutes listed per posting: median {mins[len(mins)//2]} (range {mins[0]}–{mins[-1]}); "
+                 "1 means it was seen on a single check (gone within about 2 minutes).")
     L.append("")
 
     L.append("## By hour of day\n")
-    L.append("Restocks starting in each hour, by capacity. “Days watched” = days with at least one check in that hour.\n")
-    L.append("| Hour | " + " | ".join(CAPS) + " | Total | Days watched | Per watched day |")
+    L.append("Restock postings starting in each hour, by capacity (counts of postings, not phones). "
+             "“Days watched” = days with at least one check in that hour.\n")
+    L.append("| Hour | " + " | ".join(CAPS) + " | Total postings | Days watched | Postings per watched day |")
     L.append("|---|" + "---|" * (len(CAPS) + 3))
     byh = defaultdict(Counter)
     for e in allev:
@@ -103,7 +108,7 @@ def main():
     L.append("")
 
     L.append("## By store\n")
-    L.append("| Store | Restocks | " + " | ".join(CAPS) + " | Median minutes in stock |")
+    L.append("| Store | Postings | " + " | ".join(CAPS) + " | Median minutes listed |")
     L.append("|---|---|" + "---|" * (len(CAPS) + 1))
     bys = defaultdict(list)
     for e in allev:
@@ -115,7 +120,7 @@ def main():
     L.append("")
 
     L.append("## By model\n")
-    L.append("| Model | Restocks | Stores | Median minutes |")
+    L.append("| Model | Postings | Stores | Median minutes listed |")
     L.append("|---|---|---|---|")
     bym = defaultdict(list)
     for e in allev:
@@ -129,7 +134,7 @@ def main():
     L.append("")
 
     L.append("## By day\n")
-    L.append("| Date | Waves | Restocks | " + " | ".join(CAPS) + " |")
+    L.append("| Date | Waves | Postings | " + " | ".join(CAPS) + " |")
     L.append("|---|---|---|" + "---|" * len(CAPS))
     byd = defaultdict(list)
     for e in allev:
@@ -141,23 +146,24 @@ def main():
     L.append("")
 
     L.append("## Waves (newest first)\n")
-    L.append("| Started | Slots | Stores | Models | Longest (min) |")
+    L.append("| Started | Postings in wave | Stores | Models | Longest listed (min) |")
     L.append("|---|---|---|---|---|")
     for w in reversed(waves[-60:]):
         L.append(f"| {w[0]['start_hkt'][:16]} | {len(w)} | {', '.join(sorted({e['store'] for e in w}))} | "
                  f"{', '.join(sorted({e['model'] for e in w}))} | {max(int(e['minutes']) for e in w)} |")
     L.append("")
 
-    L.append("## All restocks, last 7 days (newest first)\n")
-    L.append("| Start | End | Minutes | Model | Store | Note |")
+    L.append("## All restock postings, last 7 days (newest first)\n")
+    L.append("| Posted | Gone | Minutes listed | Model | Store | Note |")
     L.append("|---|---|---|---|---|---|")
     cutoff = (now - timedelta(days=7)).strftime(FMT)
     for e in reversed([e for e in allev if e["start_hkt"] >= cutoff]):
         L.append(f"| {e['start_hkt'][:16]} | {e['end_hkt'][:16] if e['end_hkt'][0].isdigit() else e['end_hkt']} | "
                  f"{e['minutes']} | {e['model']} | {e['store']} | {e.get('note','')} |")
-    L.append("\nRaw data: `events.csv` (one row per restock) and `polls.csv` (one row per check) on this branch.")
+    L.append("\nRaw data: `events.csv` (one row per restock posting) and `polls.csv` (one row per check) on this branch. "
+             "The report is rebuilt within about a minute of any posting going live or disappearing, and at least every 10 minutes.")
     open(os.path.join(DATA, "REPORT.md"), "w").write("\n".join(L) + "\n")
-    print(f"REPORT.md: {len(allev)} restocks, {len(waves)} waves, {len(ok)} checks")
+    print(f"REPORT.md: {len(allev)} postings, {len(waves)} waves, {len(ok)} checks")
 
 
 if __name__ == "__main__":

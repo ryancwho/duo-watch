@@ -2,6 +2,14 @@ name: test-alert
 
 on:
   workflow_dispatch:
+    inputs:
+      test:
+        description: "Which test"
+        type: choice
+        options:
+          - ring (star alert that repeats until you tap Got it)
+          - listener (GitHub -> ntfy, Apple data -> ntfy)
+        default: ring (star alert that repeats until you tap Got it)
 
 permissions:
   contents: read
@@ -9,16 +17,25 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: 1. Channel test (GitHub -> ntfy)
+      - name: Ring test
+        if: startsWith(github.event.inputs.test, 'ring')
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TEST_RING: "1"
+          RING_MAX: "6"
+        run: python3 monitor.py
+      - name: Channel test (GitHub -> ntfy)
+        if: startsWith(github.event.inputs.test, 'listener')
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           curl -fsS -H "Title: TEST 1/2: GitHub to ntfy works" -H "Tags: test_tube" \
             -d "Sent from GitHub Actions run ${{ github.run_id }}." "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
-      - name: 2. Listener test (Apple HK -> parser -> ntfy)
+      - name: Listener test (Apple HK -> parser -> ntfy)
+        if: startsWith(github.event.inputs.test, 'listener')
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           TEST_POSITIVE: "1"

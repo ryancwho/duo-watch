@@ -70,17 +70,80 @@ def get_json(path):
         raise Blocked(f"non-JSON reply (HTTP {status})")
 
 
-def notify(title, msg, priority="default", tags="", click=BUY):
+PRIO = {"min": 1, "low": 2, "default": 3, "high": 4, "urgent": 5, "max": 5}
+
+
+def notify(title, msg, priority="default", tags="", click=BUY, actions=None):
     print(f"[{ts(now())}] ALERT {title}: {msg}", flush=True)
     if not TOPIC:
         return
-    req = urllib.request.Request(f"https://ntfy.sh/{TOPIC}", data=msg.encode(), headers={
-        "Title": title.encode("utf-8").decode("latin-1", "ignore"),
-        "Priority": priority, "Tags": tags, "Click": click})
+    body = {"topic": TOPIC, "title": title, "message": msg, "priority": PRIO.get(priority, 3),
+            "tags": [t for t in tags.split(",") if t], "click": click}
+    if actions:
+        body["actions"] = actions
+    req = urllib.request.Request("https://ntfy.sh", data=json.dumps(body).encode("utf-8"),
+                                 headers={"Content-Type": "application/json"})
     try:
         urllib.request.urlopen(req, timeout=15).read()
     except Exception as e:
         print("ntfy failed:", e, flush=True)
+
+
+# ---------- ringing (repeat until acknowledged) ----------
+RING = [p.strip() for p in (os.environ.get("RING_TARGETS") or "MK2H4ZA/A").split(",") if p.strip()]
+RING_EVERY_S = int(os.environ.get("RING_EVERY_S") or "30")
+RING_MAX = int(os.environ.get("RING_MAX") or "10")      # 10 x 30 s = 5 minutes
+ACK_TOPIC = f"{TOPIC}-ack" if TOPIC else ""
+
+
+def star_title(part):
+    return f"\u2b50\U0001f6a8 iPhone Duo {MODELS.get(part, part)} IN STOCK"
+
+
+def ack_action():
+    return [{"action": "http", "label": "Got it - stop ringing", "url": f"https://ntfy.sh/{ACK_TOPIC}",
+             "method": "POST", "body": "ack", "clear": False},
+            {"action": "view", "label": "Open Apple Store", "url": BUY}]
+
+
+def acked_since(unix):
+    if not ACK_TOPIC:
+        return False
+    try:
+        with urllib.request.urlopen(f"https://ntfy.sh/{ACK_TOPIC}/json?poll=1&since={int(unix)}", timeout=15) as r:
+            return any(json.loads(l).get("event") == "message" for l in r.read().decode().splitlines() if l.strip())
+    except Exception:
+        return False
+
+
+def start_ring(st, part, where, label=""):
+    st["ring"] = {"part": part, "where": where, "since": time.time(), "count": 1,
+                  "next": time.time() + RING_EVERY_S, "label": label}
+    notify(star_title(part), f"{label}{where}\n{now():%H:%M} HKT. Tap 'Got it' to stop the repeats. "
+           f"Buy in the web browser if the app errors at payment. Limit 2; bring photo ID.",
+           priority="urgent", actions=ack_action())
+
+
+def ring_tick(st, still_in_stock=None):
+    r = st.get("ring")
+    if not r:
+        return
+    stop = None
+    if acked_since(r["since"]):
+        stop = "acknowledged"
+    elif still_in_stock is not None and not still_in_stock(r["part"]):
+        stop = "stock gone"
+    elif r["count"] >= RING_MAX:
+        stop = f"{RING_MAX} rings sent"
+    if stop:
+        print(f"[{ts(now())}] ring stopped: {stop}", flush=True)
+        st["ring"] = None
+        return
+    if time.time() >= r["next"]:
+        r["count"] += 1
+        r["next"] = time.time() + RING_EVERY_S
+        notify(star_title(r["part"]), f"{r.get('label','')}Repeat {r['count']}/{RING_MAX}: {r['where']}. Tap 'Got it' to stop.",
+               priority="urgent", actions=ack_action())
 
 
 def pickup_hits(anchor):
@@ -127,6 +190,7 @@ def load_state():
     st.setdefault("last_poll", None)
     st.setdefault("last_heartbeat", None)
     st.setdefault("stats", {"cycles": 0, "errors": 0})
+    st.setdefault("ring", None)
     return st
 
 
@@ -186,14 +250,17 @@ def cycle(st, with_delivery):
                 close_window(k, w, w["last_seen"])
                 del st["open"][k]
 
-    # phone alerts for ALERT models only
+    # phone alerts for ALERT models only (RING models get the star alert that repeats until acknowledged)
     for p in ALERT:
         name = MODELS[p]
         if p in hits and p not in st["alerted"]:
             where = "; ".join(f"{s} ({q})" for s, q in sorted(hits[p].items()))
-            notify(f"iPhone Duo {name} IN STOCK",
-                   f"{where}\n{t:%H:%M} HKT. Buy in the web browser if the app errors at payment. Limit 2; bring photo ID.",
-                   priority="urgent", tags="rotating_light")
+            if p in RING:
+                start_ring(st, p, where)
+            else:
+                notify(f"\U0001f6a8 iPhone Duo {name} IN STOCK",
+                       f"{where}\n{t:%H:%M} HKT. Buy in the web browser if the app errors at payment. Limit 2; bring photo ID.",
+                       priority="urgent")
             st["alerted"].append(p)
         elif p in st["alerted"] and not any(k.startswith(p + "|") for k in st["open"]):
             notify(f"iPhone Duo {name} gone", f"No store lists it any more ({t:%H:%M} HKT).", priority="low")
@@ -219,20 +286,41 @@ def cycle(st, with_delivery):
     return hits
 
 
+PUBLISH = os.environ.get("PUBLISH") == "1"
+PUBLISH_EVERY_S = 600
+
+
+def publish(st, reason):
+    """Rebuild REPORT.md and push the data branch (workflow sets PUBLISH=1)."""
+    if not PUBLISH:
+        return
+    import subprocess
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        subprocess.run([sys.executable, os.path.join(here, "report.py"), DATA], check=True,
+                       env={**os.environ, "PYTHONPATH": here}, timeout=60)
+        cmd = (f'cd "{DATA}" && git add -A && (git diff --cached --quiet || (git commit -qm "data {now():%Y-%m-%d %H:%M} HKT ({reason})" '
+               f'&& (git push -q origin HEAD:data || (git pull -q --rebase origin data && git push -q origin HEAD:data))))')
+        subprocess.run(cmd, shell=True, timeout=90)
+    except Exception as e:
+        print("publish failed:", e, flush=True)
+    st["last_publish"] = time.time()
+
+
 def yesterday_summary():
     y = (now() - timedelta(days=1)).strftime("%Y-%m-%d")
     rows = []
     if os.path.exists(EVENTS):
         rows = [r for r in csv.DictReader(open(EVENTS)) if r["start_hkt"].startswith(y)]
     if not rows:
-        return f"Yesterday ({y}): no restocks recorded."
+        return f"Yesterday ({y}): no restock postings recorded."
     by_model, by_hour = {}, {}
     for r in rows:
         by_model[r["model"]] = by_model.get(r["model"], 0) + 1
         h = r["start_hkt"][11:13]
         by_hour[h] = by_hour.get(h, 0) + 1
     top_h = sorted(by_hour.items(), key=lambda x: -x[1])[:3]
-    return (f"Yesterday ({y}): {len(rows)} store-model restocks. "
+    return (f"Yesterday ({y}): {len(rows)} restock postings (batch sizes unknown). "
             + ", ".join(f"{m} x{n}" for m, n in sorted(by_model.items()))
             + ". Busiest hours: " + ", ".join(f"{h}:00 ({n})" for h, n in top_h) + ".")
 
@@ -296,8 +384,13 @@ def main():
     fails, backoff, n = 0, 120, 0
     while True:
         try:
+            before = set(st["open"])
             hits = cycle(st, with_delivery=(n % 5 == 0))
             n += 1
+            changed = set(st["open"]) != before
+            if changed or time.time() - st.get("last_publish", 0) >= PUBLISH_EVERY_S:
+                save_state(st)
+                publish(st, "change" if changed else "periodic")
             fails, backoff = 0, 120
             print(f"[{now():%H:%M:%S}] in stock: " + ("; ".join(f"{MODELS[p]}@{len(s)}" for p, s in hits.items()) or "none"), flush=True)
             heartbeat(st)
@@ -316,11 +409,26 @@ def main():
         pause = wait_seconds() if fails == 0 else min(backoff := backoff * 2, 1800)
         if time.time() + pause >= deadline:
             break
-        time.sleep(pause)
+        end = time.time() + pause
+        while time.time() < end:
+            ring_tick(st, still_in_stock=lambda p: p in st["alerted"])
+            time.sleep(min(15, max(0, end - time.time())))
+
+
+def ring_test():
+    """Send the real star alert (labelled TEST) and repeat it until 'Got it' is tapped (max RING_MAX)."""
+    st = {"ring": None}
+    start_ring(st, "MK2H4ZA/A", "ifc mall (example only)", label="TEST - not real stock. ")
+    while st.get("ring"):
+        time.sleep(5)
+        ring_tick(st)
+    print("ring test finished", flush=True)
 
 
 if __name__ == "__main__":
-    if os.environ.get("TEST_POSITIVE") == "1":
+    if os.environ.get("TEST_RING") == "1":
+        ring_test()
+    elif os.environ.get("TEST_POSITIVE") == "1":
         positive_test()
     else:
         main()
