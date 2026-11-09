@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-10 00:50 HKT (last check 00:50). All times HKT.
+Updated 2026-11-10 01:01 HKT (last check 01:00). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 727 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-10 00:50:44.
+- Checks: 728 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-10 01:00:58.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 2.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -26,7 +26,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Hour | 256GB | 512GB | 1TB | 2TB | Total postings | Hours watched | Postings per watched hour |
 |---|---|---|---|---|---|---|---|
-| 00:00 |  |  |  |  | 0  | 1.9 | 0.00 |
+| 00:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 01:00 |  |  |  |  | 0  | 1.0 | 0.00 |
 | 02:00 |  |  |  |  | 0  | 1.0 | 0.00 |
 | 03:00 |  |  |  |  | 0  | 1.0 | 0.00 |
