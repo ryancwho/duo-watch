@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
-"""iPhone Duo pickup-stock watcher for Apple Store Hong Kong.
+"""iPhone Duo pickup-stock watcher for Apple Store Hong Kong (v2).
 
-Watch and alert only: never logs in, adds to bag or checks out.
-Alerts go to ntfy (https://ntfy.sh) topic in env NTFY_TOPIC.
+- Records every iPhone Duo model's in-store pickup availability (data collection).
+- Pushes phone alerts (ntfy) only for ALERT_TARGETS (default: 1TB and 2TB, both colours).
+- Watch and alert only: never logs in, adds to bag or checks out.
+
+Files in DATA_DIR (committed to the `data` branch by the workflow):
+  state.json   open restock windows, alert state, baseline delivery date
+  events.csv   one row per closed restock window: model x store, start, end, minutes
+  polls.csv    one row per check (coverage + what was in stock)
 """
-import json, os, random, re, sys, time, urllib.request, urllib.error
+import csv, json, os, random, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timedelta, timezone
 
 HKT = timezone(timedelta(hours=8))
 BASE = "https://www.apple.com/hk/shop"
 BUY = "https://www.apple.com/hk/shop/buy-iphone/iphone-duo"
+REPORT_URL = "https://github.com/ryancwho/duo-watch/blob/data/REPORT.md"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/130.0 Safari/537.36")
 MODELS = {
@@ -18,13 +25,19 @@ MODELS = {
     "MK2H4ZA/A": "1TB Star White",   "MK2J4ZA/A": "1TB Night Sky",
     "MK2K4ZA/A": "2TB Star White",   "MK2L4ZA/A": "2TB Night Sky",
 }
-POSITIVE_CONTROL = "MG6K4ZA/A"  # iPhone 17 256GB White, normally in stock
-TARGETS = [p.strip() for p in (os.environ.get("TARGETS") or ",".join(MODELS)).split(",") if p.strip()] or list(MODELS)
+# The pickup endpoint omits the queried model and lists ~3 in-stock alternatives per store,
+# so query one anchor per capacity to see as many models as possible.
+ANCHORS = ["MK2D4ZA/A", "MK2G4ZA/A", "MK2H4ZA/A", "MK2L4ZA/A"]
+POSITIVE_CONTROL = "MG6J4ZA/A"  # iPhone 17; its alternatives are normally in stock somewhere
+DEFAULT_ALERT = "MK2H4ZA/A,MK2J4ZA/A,MK2K4ZA/A,MK2L4ZA/A"
+ALERT = [p.strip() for p in (os.environ.get("ALERT_TARGETS") or DEFAULT_ALERT).split(",") if p.strip() in MODELS]
 TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
 STOP_DATE = os.environ.get("STOP_DATE", "2027-01-31")
-LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES") or "0")  # 0 = single check
-STATE_FILE = os.environ.get("STATE_FILE", "state/state.json")
-LOG_FILE = os.environ.get("LOG_FILE", "state/log.csv")
+LOOP_MINUTES = float(os.environ.get("LOOP_MINUTES") or "0")
+DATA = os.environ.get("DATA_DIR", "data")
+STATE_FILE, EVENTS, POLLS = (os.path.join(DATA, f) for f in ("state.json", "events.csv", "polls.csv"))
+ABSENT_TO_CLOSE = 2      # consecutive absent checks before a window is closed (absorbs list flicker)
+GAP_MINUTES = 15         # if the last check is older than this, open windows are closed at the last check
 
 
 class Blocked(Exception):
@@ -35,6 +48,10 @@ def now():
     return datetime.now(HKT)
 
 
+def ts(t):
+    return t.strftime("%Y-%m-%d %H:%M:%S")
+
+
 def get_json(path):
     req = urllib.request.Request(BASE + path, headers={
         "User-Agent": UA, "Referer": BUY,
@@ -42,11 +59,10 @@ def get_json(path):
         "Accept-Language": "en-HK,en;q=0.9"})
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
-            body = r.read().decode("utf-8", "replace")
-            status = r.status
+            body, status = r.read().decode("utf-8", "replace"), r.status
     except urllib.error.HTTPError as e:
         raise Blocked(f"HTTP {e.code}")
-    except Exception as e:  # network
+    except Exception as e:
         raise Blocked(f"network: {e}")
     try:
         return json.loads(body)
@@ -55,7 +71,7 @@ def get_json(path):
 
 
 def notify(title, msg, priority="default", tags="", click=BUY):
-    print(f"[{now():%Y-%m-%d %H:%M:%S}] ALERT {title}: {msg}", flush=True)
+    print(f"[{ts(now())}] ALERT {title}: {msg}", flush=True)
     if not TOPIC:
         return
     req = urllib.request.Request(f"https://ntfy.sh/{TOPIC}", data=msg.encode(), headers={
@@ -67,158 +83,203 @@ def notify(title, msg, priority="default", tags="", click=BUY):
         print("ntfy failed:", e, flush=True)
 
 
-def summary(parts):
-    q = "&".join(f"parts.{i}={p}" for i, p in enumerate(parts))
-    d = get_json(f"/sba/availability-message?{q}")
-    out = {}
-    for c in (d.get("body") or {}).get("content") or []:
-        msgs = (c.get("deliveryMessage") or {}).get("deliveryOptionMessages") or [{}]
-        out[c["partNumber"]] = {
-            "count": int(c.get("partAvailableStoresCount") or 0),
-            "any": bool(c.get("availableAtAnyStore")),
-            "delivery": msgs[0].get("displayName", ""),
-        }
-    return out
-
-
-ANCHORS = ["MK2D4ZA/A", "MK2L4ZA/A"]  # each query lists the OTHER in-stock models, so two anchors cover all 8
-
-
 def pickup_hits(anchor):
-    """{part: [store (quote)]} for in-stock models Apple lists as alternatives to `anchor`.
-    The endpoint omits the queried part itself and shows up to ~3 alternatives per store."""
+    """{part: {store: quote}} for in-stock alternatives Apple lists for `anchor`."""
     d = get_json(f"/pickup-message-recommendations?mts.0=regular&location=Central&product={anchor}")
     hits = {}
     for s in d["body"]["PickupMessage"]["stores"]:
         for p, pa in (s.get("partsAvailability") or {}).items():
             if pa.get("pickupDisplay") == "available":
                 q = ((pa.get("messageTypes") or {}).get("regular") or {}).get("storePickupQuote") or pa.get("pickupSearchQuote", "")
-                hits.setdefault(p, []).append(f"{s['storeName']} ({q})")
+                hits.setdefault(p, {})[s["storeName"]] = q
     return hits
 
 
 def duo_hits():
     hits = {}
     for a in ANCHORS:
-        for p, where in pickup_hits(a).items():
+        for p, stores in pickup_hits(a).items():
             if p in MODELS:
-                hits.setdefault(p, [])
-                hits[p] += [w for w in where if w not in hits[p]]
+                hits.setdefault(p, {}).update(stores)
     return hits
 
 
-def ddate(text):
-    m = re.search(r"(\d{2})/(\d{2})/(\d{4})", text or "")
-    return f"{m.group(3)}-{m.group(2)}-{m.group(1)}" if m else None
+def delivery_date():
+    q = "&".join(f"parts.{i}={p}" for i, p in enumerate(ALERT or MODELS))
+    d = get_json(f"/sba/availability-message?{q}")
+    for c in (d.get("body") or {}).get("content") or []:
+        msgs = (c.get("deliveryMessage") or {}).get("deliveryOptionMessages") or [{}]
+        m = re.search(r"(\d{2})/(\d{2})/(\d{4})", msgs[0].get("displayName", ""))
+        if m:
+            return f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
+    return None
 
 
+# ---------- persistence ----------
 def load_state():
     try:
-        return json.load(open(STATE_FILE))
+        st = json.load(open(STATE_FILE))
     except Exception:
-        return {"parts": {}, "baseline": None, "last_heartbeat": None, "stats": {"cycles": 0, "errors": 0, "seen": []}}
+        st = {}
+    st.setdefault("open", {})            # "part|store" -> {"start":..., "last_seen":..., "absent":0}
+    st.setdefault("alerted", [])         # alert parts currently announced as in stock
+    st.setdefault("baseline", None)
+    st.setdefault("last_poll", None)
+    st.setdefault("last_heartbeat", None)
+    st.setdefault("stats", {"cycles": 0, "errors": 0})
+    return st
 
 
 def save_state(st):
-    os.makedirs(os.path.dirname(STATE_FILE) or ".", exist_ok=True)
-    json.dump(st, open(STATE_FILE, "w"), indent=1)
+    os.makedirs(DATA, exist_ok=True)
+    json.dump(st, open(STATE_FILE, "w"), indent=1, sort_keys=True)
 
 
-def log(rows):
-    os.makedirs(os.path.dirname(LOG_FILE) or ".", exist_ok=True)
-    new = not os.path.exists(LOG_FILE)
-    with open(LOG_FILE, "a") as f:
+def append_csv(path, header, row):
+    os.makedirs(DATA, exist_ok=True)
+    new = not os.path.exists(path)
+    with open(path, "a", newline="") as f:
+        w = csv.writer(f)
         if new:
-            f.write("time_hkt,part,model,store_count,stores,delivery,status\n")
-        for r in rows:
-            f.write(",".join('"%s"' % str(x).replace('"', "'") for x in r) + "\n")
+            w.writerow(header)
+        w.writerow(row)
 
 
-def self_test():
-    """Positive control: iPhone 17 alternatives should normally show stock somewhere."""
-    pos = pickup_hits(POSITIVE_CONTROL)
-    if pos:
-        print(f"self-test ok: positive control lists {len(pos)} in-stock model(s)", flush=True)
-    else:
-        print("self-test WARNING: positive control shows no stock; parser may be stale", flush=True)
-    return bool(pos)
+def close_window(key, w, end, note=""):
+    part, store = key.split("|", 1)
+    start = datetime.fromisoformat(w["start"])
+    endt = datetime.fromisoformat(end)
+    mins = max(1, round((endt - start).total_seconds() / 60))
+    append_csv(EVENTS, ["start_hkt", "end_hkt", "minutes", "part", "model", "store", "note"],
+               [ts(start), ts(endt), mins, part, MODELS.get(part, part), store, note])
 
 
-def positive_test():
-    """End-to-end proof from wherever this runs: Apple endpoint -> parser -> ntfy."""
-    hits = {}
-    for a in ["MG6J4ZA/A", "MG6P4ZA/A"]:  # iPhone 17 anchors
-        for p, where in pickup_hits(a).items():
-            hits.setdefault(p, set()).update(where)
-    if hits:
-        p, where = sorted(hits.items())[0]
-        notify("TEST: Apple listener works",
-               f"Read live Apple HK pickup data: iPhone 17 {p} in stock at {'; '.join(sorted(where))}. "
-               f"{len(hits)} iPhone 17 model(s) seen in total. A real iPhone Duo alert will look like this, titled IN STOCK.",
-               priority="high", tags="white_check_mark")
-    else:
-        notify("TEST: listener saw no stock",
-               "Apple answered, but no iPhone 17 pickup stock was listed right now. The parser may be stale or iPhone 17 is sold out; rerun later.",
-               priority="high", tags="warning")
-    # Duo status right now, for reference
-    d = duo_hits()
-    print("Duo now:", {MODELS[k]: v for k, v in d.items()} or "none", flush=True)
+def close_after_gap(st):
+    """If we were offline for a while, end open windows at the last check we made."""
+    if not st["last_poll"] or not st["open"]:
+        return
+    last = datetime.fromisoformat(st["last_poll"])
+    if (now() - last) > timedelta(minutes=GAP_MINUTES):
+        for k, w in list(st["open"].items()):
+            close_window(k, w, w["last_seen"], "ended during a monitoring gap")
+            del st["open"][k]
+        st["alerted"] = []
 
 
+# ---------- one check ----------
 def cycle(st, with_delivery):
     t = now()
     hits = duo_hits()
-    s = summary(TARGETS) if with_delivery else {}
-    rows = []
-    for p in TARGETS:
-        where_l = hits.get(p, [])
-        info = s.get(p, {"delivery": ""})
-        prev = st["parts"].get(p, {"in": False})
-        name = MODELS.get(p, p)
-        if where_l and not prev.get("in"):
-            where = "; ".join(where_l)
+    seen_keys = {f"{p}|{s}" for p, stores in hits.items() for s in stores}
+
+    # open new windows
+    for k in seen_keys:
+        if k in st["open"]:
+            st["open"][k].update(last_seen=t.isoformat(), absent=0)
+        else:
+            st["open"][k] = {"start": t.isoformat(), "last_seen": t.isoformat(), "absent": 0}
+    # close windows absent for ABSENT_TO_CLOSE checks
+    for k, w in list(st["open"].items()):
+        if k not in seen_keys:
+            w["absent"] = w.get("absent", 0) + 1
+            if w["absent"] >= ABSENT_TO_CLOSE:
+                close_window(k, w, w["last_seen"])
+                del st["open"][k]
+
+    # phone alerts for ALERT models only
+    for p in ALERT:
+        name = MODELS[p]
+        if p in hits and p not in st["alerted"]:
+            where = "; ".join(f"{s} ({q})" for s, q in sorted(hits[p].items()))
             notify(f"iPhone Duo {name} IN STOCK",
                    f"{where}\n{t:%H:%M} HKT. Buy in the web browser if the app errors at payment. Limit 2; bring photo ID.",
                    priority="urgent", tags="rotating_light")
-            st["parts"][p] = {"in": True, "since": t.isoformat()}
-            st["stats"]["seen"].append(f"{t:%m-%d %H:%M} {name}: {where}")
-        elif not where_l and prev.get("in"):
-            mins = int((t - datetime.fromisoformat(prev["since"])).total_seconds() // 60)
-            notify(f"iPhone Duo {name} gone", f"Back to zero after about {mins} min ({t:%H:%M} HKT).", priority="low")
-            st["parts"][p] = {"in": False}
-        d = ddate(info["delivery"])
+            st["alerted"].append(p)
+        elif p in st["alerted"] and not any(k.startswith(p + "|") for k in st["open"]):
+            notify(f"iPhone Duo {name} gone", f"No store lists it any more ({t:%H:%M} HKT).", priority="low")
+            st["alerted"].remove(p)
+
+    delivery = ""
+    if with_delivery:
+        d = delivery_date()
         if d:
+            delivery = d
             if st["baseline"] is None:
                 st["baseline"] = d
             elif d < st["baseline"]:
                 notify("iPhone Duo delivery moved earlier",
-                       f"{name}: delivery now {info['delivery']} (was {st['baseline']}). Supply may be improving.")
+                       f"Online delivery for your models is now {d} (was {st['baseline']}). Supply may be improving.")
                 st["baseline"] = d
-        rows.append([f"{t:%Y-%m-%d %H:%M:%S}", p, name, len(where_l), " | ".join(where_l), info["delivery"], "ok"])
-    log(rows)
+
+    pairs = "; ".join(f"{MODELS[p]} @ {s}" for p in sorted(hits) for s in sorted(hits[p]))
+    append_csv(POLLS, ["time_hkt", "status", "n_in_stock", "in_stock", "delivery"],
+               [ts(t), "ok", len(seen_keys), pairs, delivery])
+    st["last_poll"] = t.isoformat()
     st["stats"]["cycles"] += 1
     return hits
+
+
+def yesterday_summary():
+    y = (now() - timedelta(days=1)).strftime("%Y-%m-%d")
+    rows = []
+    if os.path.exists(EVENTS):
+        rows = [r for r in csv.DictReader(open(EVENTS)) if r["start_hkt"].startswith(y)]
+    if not rows:
+        return f"Yesterday ({y}): no restocks recorded."
+    by_model, by_hour = {}, {}
+    for r in rows:
+        by_model[r["model"]] = by_model.get(r["model"], 0) + 1
+        h = r["start_hkt"][11:13]
+        by_hour[h] = by_hour.get(h, 0) + 1
+    top_h = sorted(by_hour.items(), key=lambda x: -x[1])[:3]
+    return (f"Yesterday ({y}): {len(rows)} store-model restocks. "
+            + ", ".join(f"{m} x{n}" for m, n in sorted(by_model.items()))
+            + ". Busiest hours: " + ", ".join(f"{h}:00 ({n})" for h, n in top_h) + ".")
 
 
 def heartbeat(st):
     t = now()
     today = f"{t:%Y-%m-%d}"
     if t.hour >= 8 and st.get("last_heartbeat") != today:
-        sts = st["stats"]
-        seen = "; ".join(sts["seen"][-5:]) or "nothing"
         try:
-            pc = "positive control OK (iPhone 17 stock visible)" if pickup_hits(POSITIVE_CONTROL) else "positive control saw NO stock - check"
+            pc = "Positive control OK." if pickup_hits(POSITIVE_CONTROL) else "Positive control saw NO stock - check."
         except Blocked as e:
-            pc = f"positive control failed ({e})"
-        notify("Duo watch heartbeat",
-               f"{sts['cycles']} checks, {sts['errors']} errors since last heartbeat. Seen: {seen}. Baseline delivery {st['baseline']}. {pc}.",
-               priority="min", tags="heartbeat")
+            pc = f"Positive control failed ({e})."
+        s = st["stats"]
+        notify("Duo watch daily report",
+               f"{yesterday_summary()} {s['cycles']} checks, {s['errors']} errors since last report. {pc} Full report: {REPORT_URL}",
+               priority="min", tags="bar_chart", click=REPORT_URL)
         st["last_heartbeat"] = today
-        st["stats"] = {"cycles": 0, "errors": 0, "seen": []}
+        st["stats"] = {"cycles": 0, "errors": 0}
+
+
+def self_test():
+    ok = bool(pickup_hits(POSITIVE_CONTROL))
+    print("self-test", "ok" if ok else "WARNING: positive control shows no stock", flush=True)
+    return ok
+
+
+def positive_test():
+    """End-to-end proof: Apple endpoint -> parser -> ntfy (used by the test-alert workflow)."""
+    hits = {}
+    for a in ["MG6J4ZA/A", "MG6P4ZA/A"]:
+        for p, stores in pickup_hits(a).items():
+            hits.setdefault(p, {}).update(stores)
+    if hits:
+        p, stores = sorted(hits.items())[0]
+        notify("TEST: Apple listener works",
+               f"Read live Apple HK pickup data: iPhone 17 {p} in stock at {'; '.join(sorted(stores))}. "
+               f"{len(hits)} iPhone 17 model(s) seen. Phone alerts are set for: {', '.join(MODELS[p] for p in ALERT)}.",
+               priority="high", tags="white_check_mark")
+    else:
+        notify("TEST: listener saw no stock",
+               "Apple answered, but no iPhone 17 pickup stock was listed. Rerun later.", priority="high", tags="warning")
+    print("Duo now:", {MODELS[k]: sorted(v) for k, v in duo_hits().items()} or "none", flush=True)
 
 
 def wait_seconds():
-    h = now().hour + now().minute / 60
+    t = now()
+    h = t.hour + t.minute / 60
     base = 120 if 6.5 <= h < 23.5 else 600
     return max(60, base + random.uniform(-45, 45))
 
@@ -228,8 +289,9 @@ def main():
         print("Past STOP_DATE; exiting.")
         return
     st = load_state()
+    close_after_gap(st)
     if not self_test():
-        notify("Duo watch self-test warning", "iPhone 17 positive control showed no stock. Watching anyway; check the log.", priority="low")
+        notify("Duo watch self-test warning", "iPhone 17 positive control showed no stock. Watching anyway.", priority="low")
     deadline = time.time() + LOOP_MINUTES * 60
     fails, backoff, n = 0, 120, 0
     while True:
@@ -237,11 +299,12 @@ def main():
             hits = cycle(st, with_delivery=(n % 5 == 0))
             n += 1
             fails, backoff = 0, 120
-            print(f"[{now():%H:%M:%S}] Duo in stock: " + (", ".join(f"{MODELS[p]}@{len(w)}" for p, w in hits.items()) or "none"), flush=True)
+            print(f"[{now():%H:%M:%S}] in stock: " + ("; ".join(f"{MODELS[p]}@{len(s)}" for p, s in hits.items()) or "none"), flush=True)
             heartbeat(st)
         except Blocked as e:
             fails += 1
             st["stats"]["errors"] += 1
+            append_csv(POLLS, ["time_hkt", "status", "n_in_stock", "in_stock", "delivery"], [ts(now()), f"error: {e}", "", "", ""])
             print(f"[{now():%H:%M:%S}] blocked/failed ({fails}): {e}", flush=True)
             if fails >= 5:
                 notify("Duo watch stopped", f"5 failures in a row ({e}). Apple may be blocking GitHub's servers. Not retrying.", priority="high")
