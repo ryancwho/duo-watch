@@ -8,7 +8,7 @@ Watches Apple Store Hong Kong same-day pickup stock for all 8 iPhone Duo models,
 - **Counts are restock postings, not phones:** batch size per posting is unknown.
 - **Daily 08:00 HKT report notification:** yesterday's restock count, busiest hours, positive-control result.
 - **Test:** Actions → test-alert → Run workflow → choose ring or listener.
-- **Cadence:** ~2 min 06:30–23:30 HKT, ~10 min overnight; runs of 55 min chained by a 15-minute schedule. Stops after 2027-01-31, or Actions → duo-watch → Disable workflow.
+- **Cadence:** ~2 min 06:30–23:30 HKT, ~10 min overnight; runs of about 5 h 40 min, each starting the next itself (a 30-minute schedule is only a backup). Stops after 2027-01-31, or Actions → duo-watch → Disable workflow.
 
 | Part | Model |
 |---|---|

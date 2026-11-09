@@ -2,12 +2,12 @@ name: duo-watch
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # one run active + one queued at all times -> continuous coverage
+    - cron: "*/30 * * * *"   # backup only; GitHub often skips or delays schedules. Each run starts the next itself.
   workflow_dispatch:
     inputs:
       loop_minutes:
         description: "Minutes to keep watching (0 = single check)"
-        default: "55"
+        default: "340"
 
 concurrency:
   group: duo-watch
@@ -15,11 +15,12 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   watch:
     runs-on: ubuntu-latest
-    timeout-minutes: 70
+    timeout-minutes: 358
     steps:
       - uses: actions/checkout@v4
       - name: Check out data branch
@@ -37,7 +38,7 @@ jobs:
           RING_TARGETS: ${{ vars.RING_TARGETS }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           ALERT_TARGETS: ${{ vars.ALERT_TARGETS }}
-          LOOP_MINUTES: ${{ github.event.inputs.loop_minutes || '55' }}
+          LOOP_MINUTES: ${{ github.event.inputs.loop_minutes || '340' }}
           STOP_DATE: "2027-01-31"
           DATA_DIR: data
         run: python3 monitor.py
@@ -50,3 +51,18 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -qm "data $(TZ=Asia/Hong_Kong date '+%Y-%m-%d %H:%M') HKT"
           for i in 1 2 3; do git pull -q --rebase origin data && git push -q origin HEAD:data && break; sleep 5; done
+      - name: Start the next run (self-chaining)
+        if: success() && (github.event.inputs.loop_minutes == '' || github.event.inputs.loop_minutes == '340' || github.event_name == 'schedule')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ "$(TZ=Asia/Hong_Kong date +%F)" \> "2027-01-31" ] && exit 0
+          gh workflow run watch.yml --repo "$GITHUB_REPOSITORY" -f loop_minutes=340
+      - name: Tell me if the watcher crashed
+        if: failure()
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl -fsS -H "Title: Duo watch stopped" -H "Priority: high" -H "Tags: warning" \
+            -d "The watcher run failed and did not restart. Open GitHub Actions (duo-watch) and run it again." \
+            "https://ntfy.sh/$NTFY_TOPIC" >/dev/null || true
