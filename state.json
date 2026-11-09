@@ -2,12 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-09",
- "last_poll": "2026-11-09T18:45:30.993841+08:00",
- "last_publish": 1794220422.5283797,
- "open": {},
+ "last_poll": "2026-11-09T18:48:05.710682+08:00",
+ "last_publish": 1794221133.687509,
+ "open": {
+  "MK2D4ZA/A|New Town Plaza": {
+   "absent": 0,
+   "last_seen": "2026-11-09T18:48:05.710682+08:00",
+   "start": "2026-11-09T18:48:05.710682+08:00"
+  }
+ },
  "ring": null,
  "stats": {
-  "cycles": 144,
+  "cycles": 145,
   "errors": 0
  }
 }
