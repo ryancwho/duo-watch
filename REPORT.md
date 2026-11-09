@@ -1,26 +1,28 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-09 11:23 HKT. All times HKT.
+Updated 2026-11-09 14:52 HKT (last check 14:52). All times HKT.
 
-A **restock** here is one model becoming available for same-day pickup at one store, from first sighting until it disappears. A **wave** is a group of restocks starting within 10 minutes of each other. Apple does not publish unit quantities, so “how many” is counted in store × model slots, not phones.
+**How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
+
+A **wave** is a group of postings that start within 10 minutes of each other (for example, several stores going live together). **Minutes listed** is how long a posting stayed online; a longer listing hints at a bigger batch or weaker demand, but is not a unit count.
 
 ## Coverage
 
-- Checks: 459 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 11:23:24.
+- Checks: 460 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-09 14:52:33.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
-- Monitoring gaps over 20 min in the last 7 days: 1 — 11-08 18:05→19:52.
+- Monitoring gaps over 20 min in the last 7 days: 2 — 11-08 18:05→19:52; 11-09 11:23→14:52.
 - Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per check reduce, but cannot rule out, missed models when a store has many models at once.
 
 ## Summary
 
-- Restocks recorded: **14** in **9** waves; 1 still in stock now.
-- Typical time in stock: median 2 min (range 1–58).
+- Restock postings recorded: **14** (batch sizes unknown), grouped into **9** waves.
+- Minutes listed per posting: median 2 (range 1–58); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
 
-Restocks starting in each hour, by capacity. “Days watched” = days with at least one check in that hour.
+Restock postings starting in each hour, by capacity (counts of postings, not phones). “Days watched” = days with at least one check in that hour.
 
-| Hour | 256GB | 512GB | 1TB | 2TB | Total | Days watched | Per watched day |
+| Hour | 256GB | 512GB | 1TB | 2TB | Total postings | Days watched | Postings per watched day |
 |---|---|---|---|---|---|---|---|
 | 00:00 |  |  |  |  | 0  | 1 | 0.00 |
 | 01:00 |  |  |  |  | 0  | 1 | 0.00 |
@@ -36,7 +38,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 | 11:00 |  | 1 |  |  | 1 █ | 1 | 1.00 |
 | 12:00 |  |  |  |  | 0  | 1 | 0.00 |
 | 13:00 |  |  |  |  | 0  | 1 | 0.00 |
-| 14:00 |  |  |  |  | 0  | 1 | 0.00 |
+| 14:00 |  |  |  |  | 0  | 2 | 0.00 |
 | 15:00 |  |  |  |  | 0  | 1 | 0.00 |
 | 16:00 |  |  |  |  | 0  | 1 | 0.00 |
 | 17:00 |  |  |  |  | 0  | 1 | 0.00 |
@@ -49,7 +51,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 ## By store
 
-| Store | Restocks | 256GB | 512GB | 1TB | 2TB | Median minutes in stock |
+| Store | Postings | 256GB | 512GB | 1TB | 2TB | Median minutes listed |
 |---|---|---|---|---|---|---|
 | Canton Road | 5 |  | 5 |  |  | 2 |
 | Festival Walk | 2 |  | 2 |  |  | 2 |
@@ -60,7 +62,7 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 ## By model
 
-| Model | Restocks | Stores | Median minutes |
+| Model | Postings | Stores | Median minutes listed |
 |---|---|---|---|
 | 256GB Star White | 1 | ifc mall | 58 |
 | 256GB Night Sky | 0 | | |
@@ -73,13 +75,13 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 
 ## By day
 
-| Date | Waves | Restocks | 256GB | 512GB | 1TB | 2TB |
+| Date | Waves | Postings | 256GB | 512GB | 1TB | 2TB |
 |---|---|---|---|---|---|---|
 | 2026-11-09 | 9 | 14 | 1 | 13 |  |  |
 
 ## Waves (newest first)
 
-| Started | Slots | Stores | Models | Longest (min) |
+| Started | Postings in wave | Stores | Models | Longest listed (min) |
 |---|---|---|---|---|
 | 2026-11-09 11:09 | 1 | Canton Road | 512GB Star White | 3 |
 | 2026-11-09 10:25 | 1 | ifc mall | 256GB Star White | 58 |
@@ -91,12 +93,12 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 | 2026-11-09 07:42 | 1 | New Town Plaza | 512GB Star White | 1 |
 | 2026-11-09 07:27 | 1 | Festival Walk | 512GB Star White | 1 |
 
-## All restocks, last 7 days (newest first)
+## All restock postings, last 7 days (newest first)
 
-| Start | End | Minutes | Model | Store | Note |
+| Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
 | 2026-11-09 11:09 | 2026-11-09 11:12 | 3 | 512GB Star White | Canton Road |  |
-| 2026-11-09 10:25 | (still in stock) | 58 | 256GB Star White | ifc mall | ongoing |
+| 2026-11-09 10:25 | 2026-11-09 11:23 | 58 | 256GB Star White | ifc mall | ended during a monitoring gap |
 | 2026-11-09 10:02 | 2026-11-09 10:08 | 6 | 512GB Star White | Causeway Bay | v1 log (only Star White 512GB/1TB/2TB watched) |
 | 2026-11-09 09:52 | 2026-11-09 10:00 | 8 | 512GB Star White | Canton Road | v1 log (only Star White 512GB/1TB/2TB watched) |
 | 2026-11-09 09:48 | 2026-11-09 09:48 | 1 | 512GB Star White | New Town Plaza | v1 log (only Star White 512GB/1TB/2TB watched) |
@@ -110,4 +112,4 @@ Restocks starting in each hour, by capacity. “Days watched” = days with at l
 | 2026-11-09 07:42 | 2026-11-09 07:42 | 1 | 512GB Star White | New Town Plaza | v1 log (only Star White 512GB/1TB/2TB watched) |
 | 2026-11-09 07:27 | 2026-11-09 07:27 | 1 | 512GB Star White | Festival Walk | v1 log (only Star White 512GB/1TB/2TB watched) |
 
-Raw data: `events.csv` (one row per restock) and `polls.csv` (one row per check) on this branch.
+Raw data: `events.csv` (one row per restock posting) and `polls.csv` (one row per check) on this branch. The report is rebuilt within about a minute of any posting going live or disappearing, and at least every 10 minutes.
