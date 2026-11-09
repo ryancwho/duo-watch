@@ -39,14 +39,24 @@ def main():
 
     ok = [p for p in polls if p["status"] == "ok"]
     errs = len(polls) - len(ok)
-    days_hour = defaultdict(set)   # hour -> set of dates with >=1 ok check (coverage)
-    for p in ok:
-        days_hour[p["time_hkt"][11:13]].add(p["time_hkt"][:10])
+    # coverage: minutes actually watched in each hour of day (each check covers the time until the next, max 15 min)
+    watched_min = defaultdict(float)
+    oks = [datetime.strptime(p["time_hkt"], FMT) for p in ok]
+    for ta, tb in zip(oks, oks[1:] + [None]):
+        end = min(tb, ta + timedelta(minutes=15)) if tb else ta + timedelta(minutes=2)
+        t = ta
+        while t < end:
+            nxt = min(end, (t.replace(minute=0, second=0) + timedelta(hours=1)))
+            watched_min[t.strftime("%H")] += (nxt - t).total_seconds() / 60
+            t = nxt
     gaps = []
-    for a, b in zip(ok, ok[1:]):
-        ta, tb = datetime.strptime(a["time_hkt"], FMT), datetime.strptime(b["time_hkt"], FMT)
+    errs_t = [datetime.strptime(p["time_hkt"], FMT) for p in polls if p["status"] != "ok"]
+    for ta, tb in zip(oks, oks[1:]):
         if tb - ta > timedelta(minutes=20):
-            gaps.append((ta, tb))
+            n_err = sum(ta < e < tb for e in errs_t)
+            cause = (f"Apple refused requests ({n_err} failed checks)" if n_err
+                     else "no watcher run active on GitHub (Apple not involved)")
+            gaps.append((ta, tb, cause))
 
     # waves
     waves, cur = [], []
@@ -75,8 +85,9 @@ def main():
         L.append(f"- Checks: {len(ok)} successful, {errs} failed, from {ok[0]['time_hkt']} to {ok[-1]['time_hkt']}.")
         L.append("- Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.")
         recent = [g for g in gaps if g[1] > now - timedelta(days=7)]
-        L.append(f"- Monitoring gaps over 20 min in the last 7 days: {len(recent)}"
-                 + ("" if not recent else " — " + "; ".join(f"{a:%m-%d %H:%M}→{b:%H:%M}" for a, b in recent[-10:])) + ".")
+        L.append(f"- Monitoring gaps over 20 min in the last 7 days: {len(recent)}.")
+        for a, b, c in recent[-15:]:
+            L.append(f"  - {a:%m-%d %H:%M} → {b:%m-%d %H:%M} ({round((b - a).total_seconds() / 60)} min): {c}.")
     else:
         L.append("- No checks recorded yet.")
     L.append("- Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per "
@@ -93,18 +104,19 @@ def main():
 
     L.append("## By hour of day\n")
     L.append("Restock postings starting in each hour, by capacity (counts of postings, not phones). "
-             "“Days watched” = days with at least one check in that hour.\n")
-    L.append("| Hour | " + " | ".join(CAPS) + " | Total postings | Days watched | Postings per watched day |")
+             "“Hours watched” is the total time this clock hour was actually monitored, summed over all days, "
+             "so gaps and partial first/last days count only for the minutes really watched.\n")
+    L.append("| Hour | " + " | ".join(CAPS) + " | Total postings | Hours watched | Postings per watched hour |")
     L.append("|---|" + "---|" * (len(CAPS) + 3))
     byh = defaultdict(Counter)
     for e in allev:
         byh[e["start_hkt"][11:13]][cap(e["model"])] += 1
     for h in [f"{i:02d}" for i in range(24)]:
         tot = sum(byh[h].values())
-        dw = len(days_hour.get(h, ()))
-        rate = f"{tot/dw:.2f}" if dw else "–"
+        wh = watched_min.get(h, 0) / 60
+        rate = f"{tot/wh:.2f}" if wh >= 0.25 else "–"
         bar = "█" * tot if tot <= 30 else "█" * 30 + "…"
-        L.append(f"| {h}:00 | " + " | ".join(str(byh[h][c] or "") for c in CAPS) + f" | {tot} {bar} | {dw} | {rate} |")
+        L.append(f"| {h}:00 | " + " | ".join(str(byh[h][c] or "") for c in CAPS) + f" | {tot} {bar} | {wh:.1f} | {rate} |")
     L.append("")
 
     L.append("## By store\n")

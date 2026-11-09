@@ -297,6 +297,8 @@ def publish(st, reason):
     import subprocess
     here = os.path.dirname(os.path.abspath(__file__))
     try:
+        # pick up report-format changes from main without restarting the watcher
+        subprocess.run(f'git -C "{here}" pull -q --ff-only origin main', shell=True, timeout=60)
         subprocess.run([sys.executable, os.path.join(here, "report.py"), DATA], check=True,
                        env={**os.environ, "PYTHONPATH": here}, timeout=60)
         cmd = (f'cd "{DATA}" && git add -A && (git diff --cached --quiet || (git commit -qm "data {now():%Y-%m-%d %H:%M} HKT ({reason})" '
