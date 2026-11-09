@@ -1,0 +1,50 @@
+name: watchdog
+
+# Restarts the listener if no watcher run is active. Runs when any duo-watch run finishes (hook),
+# every 20 minutes (backup; GitHub may delay schedules), or by hand. Read-only on data.
+on:
+  workflow_run:
+    workflows: [duo-watch]
+    types: [completed]
+  schedule:
+    - cron: "7,27,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: watchdog
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for a successor to register (hook runs fire right at handover)
+        if: github.event_name == 'workflow_run'
+        run: sleep 60
+      - name: Health check and restart if down
+        id: h
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          out=$(python3 scripts/health.py --repo "$GITHUB_REPOSITORY" --act)
+          echo "$out"
+          echo "verdict=$(echo "$out" | python3 -c 'import json,sys;print(json.load(sys.stdin)["verdict"])')" >> "$GITHUB_OUTPUT"
+          echo "action=$(echo "$out" | python3 -c 'import json,sys;print(json.load(sys.stdin)["action"])')" >> "$GITHUB_OUTPUT"
+      - name: Tell me when the watchdog had to step in
+        if: steps.h.outputs.verdict == 'DOWN' || steps.h.outputs.verdict == 'STUCK' || steps.h.outputs.verdict == 'BACKOFF'
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          V: ${{ steps.h.outputs.verdict }}
+          A: ${{ steps.h.outputs.action }}
+        run: |
+          p=low; [ "$V" != DOWN ] && p=high
+          [ "$V" = DOWN ] && case "$A" in "start failed"*) p=high;; esac
+          curl -fsS -H "Title: Duo watchdog: $V" -H "Priority: $p" -H "Tags: dog" \
+            -H "Click: https://github.com/$GITHUB_REPOSITORY/actions" \
+            -d "Listener check: $V. Action: $A" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null || true
