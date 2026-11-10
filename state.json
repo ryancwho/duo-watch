@@ -2,18 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-10T21:35:10.593140+08:00",
- "last_publish": 1794317066.7622926,
+ "last_poll": "2026-11-10T21:46:32.292797+08:00",
+ "last_publish": 1794317714.185639,
  "open": {
   "MK2D4ZA/A|Festival Walk": {
    "absent": 0,
-   "last_seen": "2026-11-10T21:35:10.593140+08:00",
+   "last_seen": "2026-11-10T21:46:32.292797+08:00",
    "start": "2026-11-10T18:35:10.000759+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 404,
+  "cycles": 409,
   "errors": 0
  }
 }
