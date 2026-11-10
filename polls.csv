@@ -1268,3 +1268,8 @@ time_hkt,status,n_in_stock,in_stock,delivery
 2026-11-11 07:09:10,ok,0,,
 2026-11-11 07:10:53,ok,0,,
 2026-11-11 07:12:21,ok,0,,
+2026-11-11 07:14:09,error: network: <urlopen error _ssl.c:983: The handshake operation timed out>,,,
+2026-11-11 07:18:09,ok,0,,2027-01-23
+2026-11-11 07:19:44,ok,0,,
+2026-11-11 07:21:10,ok,0,,
+2026-11-11 07:23:14,ok,0,,
