@@ -2,23 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-10T18:35:10.000759+08:00",
- "last_publish": 1794306637.9053967,
+ "last_poll": "2026-11-10T18:37:48.290693+08:00",
+ "last_publish": 1794306912.5603547,
  "open": {
-  "MK2D4ZA/A|Canton Road": {
-   "absent": 1,
-   "last_seen": "2026-11-10T18:32:35.286987+08:00",
-   "start": "2026-11-10T16:12:00.075147+08:00"
-  },
   "MK2D4ZA/A|Festival Walk": {
    "absent": 0,
-   "last_seen": "2026-11-10T18:35:10.000759+08:00",
+   "last_seen": "2026-11-10T18:37:48.290693+08:00",
    "start": "2026-11-10T18:35:10.000759+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 317,
+  "cycles": 318,
   "errors": 0
  }
 }
