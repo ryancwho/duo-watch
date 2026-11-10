@@ -1,14 +1,19 @@
 name: watchdog
 
-# Restarts the listener if no watcher run is active. Runs when any duo-watch run finishes (hook),
-# every 20 minutes (backup; GitHub may delay schedules), or by hand. Read-only on data.
+# Restarts the listener if no watcher run is active. Called by every duo-watch run as its last step
+# (even when cancelled or crashed), also on workflow_run for runs a person started (GitHub does not send
+# workflow_run for bot-started runs), every 20 minutes as a backup, or by hand. Read-only on data.
 on:
+  workflow_dispatch:
+    inputs:
+      from_run:
+        description: "Internal: watcher run that just ended (leave empty)"
+        default: ""
   workflow_run:
     workflows: [duo-watch]
     types: [completed]
   schedule:
     - cron: "7,27,47 * * * *"
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Wait for a successor to register (hook runs fire right at handover)
-        if: github.event_name == 'workflow_run'
+        if: github.event_name == 'workflow_run' || github.event.inputs.from_run != ''
         run: sleep 60
       - name: Health check and restart if down
         id: h

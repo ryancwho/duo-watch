@@ -5,7 +5,7 @@ successor about 10 minutes before it ends and only stops once the successor is r
 
 ## Safety nets (in order)
 1. **In-run handover**: retries up to 18 min; phone alert "Duo watch: handover failing" if it cannot.
-2. **GitHub watchdog** (`watchdog.yml`): fires when any watcher run ends, and at :07/:27/:47 each
+2. **GitHub watchdog** (`watchdog.yml`): is called by every watcher run as its last step (even if cancelled or crashed), and runs at :07/:27/:47 each
    hour; starts a watcher if none is active; phone alert on STUCK/BACKOFF or a failed start.
 3. **Backup schedule** in `watch.yml` (every 30 min): a run that finds no watcher takes over;
    otherwise it stands down in seconds.

@@ -64,3 +64,8 @@ jobs:
           curl -fsS -H "Title: Duo watch stopped" -H "Priority: high" -H "Tags: warning" \
             -d "The watcher run failed and did not restart. Open GitHub Actions (duo-watch) and run it again." \
             "https://ntfy.sh/$NTFY_TOPIC" >/dev/null || true
+      - name: Hand the check to the watchdog (runs even if this run was cancelled or crashed)
+        if: always() && steps.watch.outputs.skipped != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run watchdog.yml --repo "$GITHUB_REPOSITORY" -f from_run="$GITHUB_RUN_ID" || true
