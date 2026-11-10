@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-10 22:35 HKT (last check 22:35). All times HKT.
+Updated 2026-11-10 22:43 HKT (last check 22:43). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1179 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-10 22:35:51.
+- Checks: 1182 successful, 0 failed, from 2026-11-08 12:15:00 to 2026-11-10 22:43:10.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -18,7 +18,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Summary
 
-- Restock postings recorded: **51** (batch sizes unknown), grouped into **20** waves.
+- Restock postings recorded: **52** (batch sizes unknown), grouped into **21** waves; 1 posting(s) still live now.
 - Minutes listed per posting: median 1 (range 1–492); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
@@ -49,7 +49,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 19:00 |  |  |  |  | 0  | 2.1 | 0.00 |
 | 20:00 |  |  |  |  | 0  | 3.0 | 0.00 |
 | 21:00 | 1 |  |  |  | 1 █ | 3.0 | 0.33 |
-| 22:00 |  |  |  |  | 0  | 2.6 | 0.00 |
+| 22:00 | 1 |  |  |  | 1 █ | 2.8 | 0.36 |
 | 23:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 
 ## By store
@@ -58,7 +58,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 |---|---|---|---|---|---|---|
 | Canton Road | 13 | 2 | 11 |  |  | 2 |
 | Festival Walk | 12 | 3 | 9 |  |  | 1 |
-| apm Hong Kong | 8 | 2 | 6 |  |  | 1 |
+| apm Hong Kong | 9 | 3 | 6 |  |  | 1 |
 | New Town Plaza | 7 | 1 | 6 |  |  | 1 |
 | ifc mall | 6 | 2 | 4 |  |  | 17 |
 | Causeway Bay | 5 | 1 | 4 |  |  | 2 |
@@ -67,7 +67,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Model | Postings | Stores | Median minutes listed |
 |---|---|---|---|
-| 256GB Star White | 11 | Canton Road, Causeway Bay, Festival Walk, New Town Plaza, apm Hong Kong, ifc mall | 13 |
+| 256GB Star White | 12 | Canton Road, Causeway Bay, Festival Walk, New Town Plaza, apm Hong Kong, ifc mall | 13 |
 | 256GB Night Sky | 0 | | |
 | 512GB Star White | 37 | Canton Road, Causeway Bay, Festival Walk, New Town Plaza, apm Hong Kong, ifc mall | 1 |
 | 512GB Night Sky | 3 | Canton Road, New Town Plaza, apm Hong Kong | 1 |
@@ -80,13 +80,14 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Date | Waves | Postings | 256GB | 512GB | 1TB | 2TB |
 |---|---|---|---|---|---|---|
-| 2026-11-10 | 9 | 35 | 8 | 27 |  |  |
+| 2026-11-10 | 10 | 36 | 9 | 27 |  |  |
 | 2026-11-09 | 11 | 16 | 3 | 13 |  |  |
 
 ## Waves (newest first)
 
 | Started | Postings in wave | Stores | Models | Longest listed (min) |
 |---|---|---|---|---|
+| 2026-11-10 22:43 | 1 | apm Hong Kong | 256GB Star White | 1 |
 | 2026-11-10 21:58 | 1 | apm Hong Kong | 256GB Star White | 13 |
 | 2026-11-10 18:35 | 1 | Festival Walk | 256GB Star White | 201 |
 | 2026-11-10 17:34 | 1 | Festival Walk | 256GB Star White | 1 |
@@ -112,6 +113,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
+| 2026-11-10 22:43 | (still live) | 1 | 256GB Star White | apm Hong Kong | ongoing |
 | 2026-11-10 21:58 | 2026-11-10 22:11 | 13 | 256GB Star White | apm Hong Kong |  |
 | 2026-11-10 18:35 | 2026-11-10 21:55 | 201 | 256GB Star White | Festival Walk |  |
 | 2026-11-10 17:34 | 2026-11-10 17:34 | 1 | 256GB Star White | Festival Walk |  |
