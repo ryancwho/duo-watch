@@ -2,18 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-10T16:57:05.071499+08:00",
- "last_publish": 1794300384.89589,
+ "last_poll": "2026-11-10T17:07:51.811715+08:00",
+ "last_publish": 1794301029.3831067,
  "open": {
   "MK2D4ZA/A|Canton Road": {
    "absent": 0,
-   "last_seen": "2026-11-10T16:57:05.071499+08:00",
+   "last_seen": "2026-11-10T17:07:51.811715+08:00",
    "start": "2026-11-10T16:12:00.075147+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 265,
+  "cycles": 270,
   "errors": 0
  }
 }
