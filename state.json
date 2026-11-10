@@ -2,33 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-11T07:43:25.543750+08:00",
- "last_publish": 1794354069.1300383,
+ "last_poll": "2026-11-11T07:45:43.747078+08:00",
+ "last_publish": 1794354209.5688393,
  "open": {
-  "MK2D4ZA/A|Causeway Bay": {
-   "absent": 1,
-   "last_seen": "2026-11-11T07:41:05.161767+08:00",
-   "start": "2026-11-11T07:41:05.161767+08:00"
-  },
   "MK2D4ZA/A|Festival Walk": {
-   "absent": 0,
+   "absent": 1,
    "last_seen": "2026-11-11T07:43:25.543750+08:00",
    "start": "2026-11-11T07:43:25.543750+08:00"
-  },
-  "MK2D4ZA/A|apm Hong Kong": {
-   "absent": 1,
-   "last_seen": "2026-11-11T07:41:05.161767+08:00",
-   "start": "2026-11-11T07:41:05.161767+08:00"
-  },
-  "MK2F4ZA/A|apm Hong Kong": {
-   "absent": 1,
-   "last_seen": "2026-11-11T07:41:05.161767+08:00",
-   "start": "2026-11-11T07:41:05.161767+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 535,
+  "cycles": 536,
   "errors": 1
  }
 }
