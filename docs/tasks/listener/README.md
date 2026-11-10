@@ -1,7 +1,7 @@
 # LD — Listener maintenance board
 
 Status: OPS LIVE (watchdog + handover on main). T1 open. Cursor work waits until the Mac mini is online.
-Dispatch issue: see DIRECTOR_BRIEF.md § 1.
+Dispatch issue: #1. Director brief: DIRECTOR_BRIEF.md.
 
 | Ticket | Title | Depends | Status |
 |---|---|---|---|
