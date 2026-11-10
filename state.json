@@ -2,28 +2,23 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-10T10:20:03.514642+08:00",
- "last_publish": 1794277103.3587904,
+ "last_poll": "2026-11-10T10:21:57.819813+08:00",
+ "last_publish": 1794277206.4024706,
  "open": {
   "MK2D4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-10T10:20:03.514642+08:00",
+   "last_seen": "2026-11-10T10:21:57.819813+08:00",
    "start": "2026-11-10T07:58:14.594416+08:00"
   },
-  "MK2F4ZA/A|Festival Walk": {
-   "absent": 1,
-   "last_seen": "2026-11-10T10:18:19.035257+08:00",
-   "start": "2026-11-10T10:18:19.035257+08:00"
-  },
   "MK2F4ZA/A|New Town Plaza": {
-   "absent": 0,
+   "absent": 1,
    "last_seen": "2026-11-10T10:20:03.514642+08:00",
    "start": "2026-11-10T10:20:03.514642+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 73,
+  "cycles": 74,
   "errors": 0
  }
 }
