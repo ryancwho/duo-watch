@@ -2,23 +2,23 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-10",
- "last_poll": "2026-11-11T07:49:23.426113+08:00",
- "last_publish": 1794354434.281195,
+ "last_poll": "2026-11-11T07:53:32.041911+08:00",
+ "last_publish": 1794354577.1716723,
  "open": {
-  "MK2D4ZA/A|Causeway Bay": {
+  "MK2D4ZA/A|Canton Road": {
    "absent": 0,
-   "last_seen": "2026-11-11T07:49:23.426113+08:00",
-   "start": "2026-11-11T07:49:23.426113+08:00"
+   "last_seen": "2026-11-11T07:53:32.041911+08:00",
+   "start": "2026-11-11T07:53:32.041911+08:00"
   },
-  "MK2F4ZA/A|Causeway Bay": {
-   "absent": 0,
-   "last_seen": "2026-11-11T07:49:23.426113+08:00",
+  "MK2D4ZA/A|Causeway Bay": {
+   "absent": 1,
+   "last_seen": "2026-11-11T07:51:05.610090+08:00",
    "start": "2026-11-11T07:49:23.426113+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 538,
+  "cycles": 540,
   "errors": 1
  }
 }
