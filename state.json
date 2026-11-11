@@ -2,23 +2,28 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-11T09:02:24.001807+08:00",
- "last_publish": 1794358825.7784529,
+ "last_poll": "2026-11-11T09:03:43.107075+08:00",
+ "last_publish": 1794358947.5053024,
  "open": {
   "MK2D4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-11T09:02:24.001807+08:00",
+   "last_seen": "2026-11-11T09:03:43.107075+08:00",
    "start": "2026-11-11T08:51:52.059099+08:00"
   },
-  "MK2F4ZA/A|ifc mall": {
+  "MK2F4ZA/A|Canton Road": {
    "absent": 0,
+   "last_seen": "2026-11-11T09:03:43.107075+08:00",
+   "start": "2026-11-11T09:03:43.107075+08:00"
+  },
+  "MK2F4ZA/A|ifc mall": {
+   "absent": 1,
    "last_seen": "2026-11-11T09:02:24.001807+08:00",
    "start": "2026-11-11T09:02:24.001807+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 30,
+  "cycles": 31,
   "errors": 0
  }
 }
