@@ -2,12 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-12T06:03:55.761387+08:00",
- "last_publish": 1794434005.7026181,
- "open": {},
+ "last_poll": "2026-11-12T06:23:31.762918+08:00",
+ "last_publish": 1794434638.9650447,
+ "open": {
+  "MK2F4ZA/A|ifc mall": {
+   "absent": 0,
+   "last_seen": "2026-11-12T06:23:31.762918+08:00",
+   "start": "2026-11-12T06:23:31.762918+08:00"
+  }
+ },
  "ring": null,
  "stats": {
-  "cycles": 499,
+  "cycles": 501,
   "errors": 0
  }
 }
