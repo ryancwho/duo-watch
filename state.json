@@ -2,18 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-11T21:19:10.718396+08:00",
- "last_publish": 1794402465.55539,
+ "last_poll": "2026-11-11T21:29:20.483600+08:00",
+ "last_publish": 1794403154.25353,
  "open": {
   "MK2D4ZA/A|Causeway Bay": {
    "absent": 0,
-   "last_seen": "2026-11-11T21:19:10.718396+08:00",
+   "last_seen": "2026-11-11T21:29:20.483600+08:00",
    "start": "2026-11-11T20:23:51.282943+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 385,
+  "cycles": 390,
   "errors": 0
  }
 }
