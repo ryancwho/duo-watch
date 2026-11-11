@@ -2,23 +2,18 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-12T06:58:53.246982+08:00",
- "last_publish": 1794437774.8827596,
+ "last_poll": "2026-11-12T07:01:34.206776+08:00",
+ "last_publish": 1794437937.3814864,
  "open": {
-  "MK2D4ZA/A|Causeway Bay": {
-   "absent": 1,
-   "last_seen": "2026-11-12T06:56:10.823574+08:00",
-   "start": "2026-11-12T06:56:10.823574+08:00"
-  },
   "MK2D4ZA/A|apm Hong Kong": {
-   "absent": 0,
+   "absent": 1,
    "last_seen": "2026-11-12T06:58:53.246982+08:00",
    "start": "2026-11-12T06:58:53.246982+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 514,
+  "cycles": 515,
   "errors": 0
  }
 }
