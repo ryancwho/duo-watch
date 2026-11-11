@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-11 23:25 HKT (last check 23:24). All times HKT.
+Updated 2026-11-11 23:40 HKT (last check 23:40). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1737 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 23:24:58.
+- Checks: 1741 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 23:40:31.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -50,7 +50,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 20:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 21:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 22:00 | 1 | 2 |  |  | 3 ███ | 4.0 | 0.75 |
-| 23:00 |  |  |  |  | 0  | 3.4 | 0.00 |
+| 23:00 |  |  |  |  | 0  | 3.7 | 0.00 |
 
 ## By store
 
@@ -90,7 +90,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 |---|---|---|---|---|
 | 2026-11-11 22:51 | 1 | ifc mall | 512GB Star White | 7 |
 | 2026-11-11 22:10 | 1 | apm Hong Kong | 512GB Star White | 1 |
-| 2026-11-11 20:23 | 1 | Causeway Bay | 256GB Star White | 181 |
+| 2026-11-11 20:23 | 1 | Causeway Bay | 256GB Star White | 197 |
 | 2026-11-11 18:37 | 1 | Canton Road | 256GB Star White | 104 |
 | 2026-11-11 11:16 | 1 | Canton Road | 512GB Star White | 1 |
 | 2026-11-11 09:25 | 2 | Causeway Bay, ifc mall | 512GB Star White | 1 |
@@ -125,7 +125,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 |---|---|---|---|---|---|
 | 2026-11-11 22:51 | 2026-11-11 22:58 | 7 | 512GB Star White | ifc mall |  |
 | 2026-11-11 22:10 | 2026-11-11 22:10 | 1 | 512GB Star White | apm Hong Kong |  |
-| 2026-11-11 20:23 | (still live) | 181 | 256GB Star White | Causeway Bay | ongoing |
+| 2026-11-11 20:23 | (still live) | 197 | 256GB Star White | Causeway Bay | ongoing |
 | 2026-11-11 18:37 | 2026-11-11 20:21 | 104 | 256GB Star White | Canton Road |  |
 | 2026-11-11 11:16 | 2026-11-11 11:16 | 1 | 512GB Star White | Canton Road |  |
 | 2026-11-11 09:29 | 2026-11-11 09:29 | 1 | 512GB Star White | Causeway Bay |  |
