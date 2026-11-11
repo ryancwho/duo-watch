@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-11 20:23 HKT (last check 20:23). All times HKT.
+Updated 2026-11-11 20:25 HKT (last check 20:25). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1648 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 20:23:51.
+- Checks: 1649 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 20:25:19.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -18,7 +18,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Summary
 
-- Restock postings recorded: **86** (batch sizes unknown), grouped into **28** waves; 2 posting(s) still live now.
+- Restock postings recorded: **86** (batch sizes unknown), grouped into **28** waves; 1 posting(s) still live now.
 - Minutes listed per posting: median 1 (range 1–583); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
@@ -47,7 +47,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 17:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 18:00 | 3 |  |  |  | 3 ███ | 3.3 | 0.90 |
 | 19:00 |  |  |  |  | 0  | 3.1 | 0.00 |
-| 20:00 | 1 |  |  |  | 1 █ | 3.4 | 0.29 |
+| 20:00 | 1 |  |  |  | 1 █ | 3.5 | 0.29 |
 | 21:00 | 1 |  |  |  | 1 █ | 3.0 | 0.33 |
 | 22:00 | 1 |  |  |  | 1 █ | 3.0 | 0.33 |
 | 23:00 |  |  |  |  | 0  | 3.0 | 0.00 |
@@ -122,7 +122,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
 | 2026-11-11 20:23 | (still live) | 1 | 256GB Star White | Causeway Bay | ongoing |
-| 2026-11-11 18:37 | (still live) | 104 | 256GB Star White | Canton Road | ongoing |
+| 2026-11-11 18:37 | 2026-11-11 20:21 | 104 | 256GB Star White | Canton Road |  |
 | 2026-11-11 11:16 | 2026-11-11 11:16 | 1 | 512GB Star White | Canton Road |  |
 | 2026-11-11 09:29 | 2026-11-11 09:29 | 1 | 512GB Star White | Causeway Bay |  |
 | 2026-11-11 09:25 | 2026-11-11 09:25 | 1 | 512GB Star White | ifc mall |  |
