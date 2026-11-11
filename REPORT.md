@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-11 08:56 HKT (last check 08:56). All times HKT.
+Updated 2026-11-11 09:00 HKT (last check 09:00). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1317 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 08:56:40.
+- Checks: 1319 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-11 09:00:21.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -18,7 +18,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Summary
 
-- Restock postings recorded: **79** (batch sizes unknown), grouped into **24** waves; 2 posting(s) still live now.
+- Restock postings recorded: **79** (batch sizes unknown), grouped into **24** waves; 1 posting(s) still live now.
 - Minutes listed per posting: median 1 (range 1–492); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
@@ -35,8 +35,8 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 05:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 06:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 07:00 | 10 | 11 |  |  | 21 █████████████████████ | 2.3 | 9.04 |
-| 08:00 | 7 | 23 |  | 1 | 31 ██████████████████████████████… | 3.0 | 10.41 |
-| 09:00 |  | 6 |  |  | 6 ██████ | 2.0 | 3.00 |
+| 08:00 | 7 | 23 |  | 1 | 31 ██████████████████████████████… | 3.0 | 10.33 |
+| 09:00 |  | 6 |  |  | 6 ██████ | 2.0 | 2.94 |
 | 10:00 | 1 | 11 |  |  | 12 ████████████ | 2.0 | 6.00 |
 | 11:00 |  | 1 |  |  | 1 █ | 1.6 | 0.61 |
 | 12:00 |  |  |  |  | 0  | 1.7 | 0.00 |
@@ -117,8 +117,8 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
-| 2026-11-11 08:56 | (still live) | 1 | 512GB Star White | apm Hong Kong | ongoing |
-| 2026-11-11 08:51 | (still live) | 5 | 256GB Star White | ifc mall | ongoing |
+| 2026-11-11 08:56 | 2026-11-11 08:56 | 1 | 512GB Star White | apm Hong Kong |  |
+| 2026-11-11 08:51 | (still live) | 8 | 256GB Star White | ifc mall | ongoing |
 | 2026-11-11 08:51 | 2026-11-11 08:51 | 1 | 512GB Night Sky | ifc mall |  |
 | 2026-11-11 08:51 | 2026-11-11 08:51 | 1 | 512GB Star White | ifc mall |  |
 | 2026-11-11 08:45 | 2026-11-11 08:45 | 1 | 512GB Night Sky | Causeway Bay |  |
