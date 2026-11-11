@@ -2,18 +2,12 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-12T07:09:51.366662+08:00",
- "last_publish": 1794438356.0690398,
- "open": {
-  "MK2D4ZA/A|apm Hong Kong": {
-   "absent": 1,
-   "last_seen": "2026-11-12T07:08:01.022146+08:00",
-   "start": "2026-11-12T07:05:51.888299+08:00"
-  }
- },
+ "last_poll": "2026-11-12T07:11:16.683629+08:00",
+ "last_publish": 1794438595.2153175,
+ "open": {},
  "ring": null,
  "stats": {
-  "cycles": 519,
+  "cycles": 520,
   "errors": 0
  }
 }
