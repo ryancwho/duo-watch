@@ -2,18 +2,23 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-11T18:28:01.889257+08:00",
- "last_publish": 1794392229.3396938,
+ "last_poll": "2026-11-11T18:37:21.659976+08:00",
+ "last_publish": 1794392885.286182,
  "open": {
-  "MK2D4ZA/A|ifc mall": {
+  "MK2D4ZA/A|Canton Road": {
    "absent": 0,
-   "last_seen": "2026-11-11T18:28:01.889257+08:00",
+   "last_seen": "2026-11-11T18:37:21.659976+08:00",
+   "start": "2026-11-11T18:37:21.659976+08:00"
+  },
+  "MK2D4ZA/A|ifc mall": {
+   "absent": 1,
+   "last_seen": "2026-11-11T18:34:42.800878+08:00",
    "start": "2026-11-11T08:51:52.059099+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 304,
+  "cycles": 308,
   "errors": 0
  }
 }
