@@ -2,18 +2,23 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-11",
- "last_poll": "2026-11-12T06:54:00.283010+08:00",
- "last_publish": 1794437193.7920916,
+ "last_poll": "2026-11-12T06:56:10.823574+08:00",
+ "last_publish": 1794437645.4107502,
  "open": {
-  "MK2F4ZA/A|Causeway Bay": {
+  "MK2D4ZA/A|Causeway Bay": {
    "absent": 0,
+   "last_seen": "2026-11-12T06:56:10.823574+08:00",
+   "start": "2026-11-12T06:56:10.823574+08:00"
+  },
+  "MK2F4ZA/A|Causeway Bay": {
+   "absent": 1,
    "last_seen": "2026-11-12T06:54:00.283010+08:00",
    "start": "2026-11-12T06:54:00.283010+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 512,
+  "cycles": 513,
   "errors": 0
  }
 }
