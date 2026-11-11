@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-12 04:17 HKT (last check 04:17). All times HKT.
+Updated 2026-11-12 04:29 HKT (last check 04:29). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1769 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 04:17:53.
+- Checks: 1771 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 04:29:07.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -18,7 +18,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Summary
 
-- Restock postings recorded: **92** (batch sizes unknown), grouped into **34** waves; 1 posting(s) still live now.
+- Restock postings recorded: **92** (batch sizes unknown), grouped into **34** waves.
 - Minutes listed per posting: median 1 (range 1–583); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
@@ -31,7 +31,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 01:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 02:00 | 1 |  |  |  | 1 █ | 3.5 | 0.29 |
 | 03:00 | 1 |  |  |  | 1 █ | 3.0 | 0.33 |
-| 04:00 | 1 | 1 |  |  | 2 ██ | 2.3 | 0.86 |
+| 04:00 | 1 | 1 |  |  | 2 ██ | 2.5 | 0.79 |
 | 05:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 06:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 07:00 | 10 | 11 |  |  | 21 █████████████████████ | 2.3 | 9.04 |
@@ -128,7 +128,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
-| 2026-11-12 04:17 | (still live) | 1 | 256GB Star White | Causeway Bay | ongoing |
+| 2026-11-12 04:17 | 2026-11-12 04:17 | 1 | 256GB Star White | Causeway Bay |  |
 | 2026-11-12 03:18 | 2026-11-12 03:18 | 1 | 256GB Star White | apm Hong Kong |  |
 | 2026-11-12 02:48 | 2026-11-12 02:48 | 1 | 256GB Star White | apm Hong Kong |  |
 | 2026-11-12 01:39 | 2026-11-12 01:39 | 1 | 256GB Star White | Festival Walk |  |
