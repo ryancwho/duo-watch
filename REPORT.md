@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-12 04:44 HKT (last check 04:44). All times HKT.
+Updated 2026-11-12 05:33 HKT (last check 05:33). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,12 +8,13 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 1785 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 04:44:06.
+- Checks: 1786 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 05:33:23.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
-- Monitoring gaps over 20 min in the last 7 days: 3.
+- Monitoring gaps over 20 min in the last 7 days: 4.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
   - 11-09 11:23 → 11-09 14:52 (209 min): no watcher run active on GitHub (Apple not involved).
   - 11-10 02:14 → 11-10 07:40 (326 min): no watcher run active on GitHub (Apple not involved).
+  - 11-12 04:44 → 11-12 05:33 (49 min): no watcher run active on GitHub (Apple not involved).
 - Limitation: Apple's pickup list shows about three in-stock models per store per query; four queries per check reduce, but cannot rule out, missed models when a store has many models at once.
 
 ## Summary
@@ -31,7 +32,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 01:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 02:00 | 1 |  |  |  | 1 █ | 3.5 | 0.29 |
 | 03:00 | 1 |  |  |  | 1 █ | 3.0 | 0.33 |
-| 04:00 | 1 | 1 |  |  | 2 ██ | 2.8 | 0.72 |
+| 04:00 | 1 | 1 |  |  | 2 ██ | 3.0 | 0.67 |
 | 05:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 06:00 |  |  |  |  | 0  | 2.0 | 0.00 |
 | 07:00 | 10 | 11 |  |  | 21 █████████████████████ | 2.3 | 9.04 |
