@@ -2,23 +2,28 @@
  "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-12",
- "last_poll": "2026-11-12T14:05:58.361303+08:00",
- "last_publish": 1794462872.7471614,
+ "last_poll": "2026-11-12T14:08:32.649711+08:00",
+ "last_publish": 1794463562.6991851,
  "open": {
   "MK2D4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-12T14:05:58.361303+08:00",
+   "last_seen": "2026-11-12T14:08:32.649711+08:00",
    "start": "2026-11-12T09:57:53.454796+08:00"
   },
   "MK2F4ZA/A|Causeway Bay": {
-   "absent": 0,
+   "absent": 1,
    "last_seen": "2026-11-12T14:05:58.361303+08:00",
    "start": "2026-11-12T13:08:00.852912+08:00"
+  },
+  "MK2F4ZA/A|Festival Walk": {
+   "absent": 0,
+   "last_seen": "2026-11-12T14:08:32.649711+08:00",
+   "start": "2026-11-12T14:08:32.649711+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 179,
+  "cycles": 180,
   "errors": 0
  }
 }
