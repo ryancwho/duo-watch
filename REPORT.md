@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-12 20:43 HKT (last check 20:43). All times HKT.
+Updated 2026-11-12 20:54 HKT (last check 20:54). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 2212 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 20:43:11.
+- Checks: 2218 successful, 1 failed, from 2026-11-08 12:15:00 to 2026-11-12 20:54:54.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 4.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -20,7 +20,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 ## Summary
 
 - Restock postings recorded: **129** (batch sizes unknown), grouped into **47** waves; 1 posting(s) still live now.
-- Minutes listed per posting: median 1 (range 1–645); 1 means it was seen on a single check (gone within about 2 minutes).
+- Minutes listed per posting: median 1 (range 1–657); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
 
@@ -48,7 +48,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 17:00 | 1 |  |  |  | 1 █ | 5.0 | 0.20 |
 | 18:00 | 3 |  |  |  | 3 ███ | 4.3 | 0.69 |
 | 19:00 |  |  |  |  | 0  | 4.1 | 0.00 |
-| 20:00 | 1 |  |  |  | 1 █ | 4.8 | 0.21 |
+| 20:00 | 1 |  |  |  | 1 █ | 4.9 | 0.20 |
 | 21:00 | 1 |  |  |  | 1 █ | 4.0 | 0.25 |
 | 22:00 | 1 | 2 |  |  | 3 ███ | 4.0 | 0.75 |
 | 23:00 |  |  |  |  | 0  | 4.0 | 0.00 |
@@ -95,7 +95,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 2026-11-12 14:08 | 1 | Festival Walk | 512GB Star White | 29 |
 | 2026-11-12 13:08 | 1 | Causeway Bay | 512GB Star White | 58 |
 | 2026-11-12 12:54 | 1 | Canton Road | 512GB Star White | 12 |
-| 2026-11-12 09:57 | 1 | ifc mall | 256GB Star White | 645 |
+| 2026-11-12 09:57 | 1 | ifc mall | 256GB Star White | 657 |
 | 2026-11-12 09:46 | 1 | Canton Road | 256GB Star White | 10 |
 | 2026-11-12 09:30 | 2 | Canton Road, ifc mall | 256GB Star White | 10 |
 | 2026-11-12 08:37 | 2 | ifc mall | 1TB Star White, 2TB Star White | 1 |
@@ -147,7 +147,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 2026-11-12 14:08 | 2026-11-12 14:37 | 29 | 512GB Star White | Festival Walk |  |
 | 2026-11-12 13:08 | 2026-11-12 14:05 | 58 | 512GB Star White | Causeway Bay |  |
 | 2026-11-12 12:54 | 2026-11-12 13:05 | 12 | 512GB Star White | Canton Road |  |
-| 2026-11-12 09:57 | (still live) | 645 | 256GB Star White | ifc mall | ongoing |
+| 2026-11-12 09:57 | (still live) | 657 | 256GB Star White | ifc mall | ongoing |
 | 2026-11-12 09:46 | 2026-11-12 09:55 | 10 | 256GB Star White | Canton Road |  |
 | 2026-11-12 09:34 | 2026-11-12 09:44 | 10 | 256GB Star White | ifc mall |  |
 | 2026-11-12 09:30 | 2026-11-12 09:32 | 2 | 256GB Star White | Canton Road |  |
