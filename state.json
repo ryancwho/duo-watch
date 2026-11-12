@@ -1,44 +1,24 @@
 {
- "alerted": [
-  "MK2H4ZA/A",
-  "MK2K4ZA/A"
- ],
+ "alerted": [],
  "baseline": "2027-01-23",
  "last_heartbeat": "2026-11-12",
- "last_poll": "2026-11-12T08:37:21.440408+08:00",
- "last_publish": 1794443575.8736215,
+ "last_poll": "2026-11-12T08:41:36.422302+08:00",
+ "last_publish": 1794443846.6738982,
  "open": {
   "MK2D4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-12T08:37:21.440408+08:00",
+   "last_seen": "2026-11-12T08:41:36.422302+08:00",
    "start": "2026-11-12T08:13:18.295715+08:00"
   },
   "MK2F4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-12T08:37:21.440408+08:00",
+   "last_seen": "2026-11-12T08:41:36.422302+08:00",
    "start": "2026-11-12T08:13:18.295715+08:00"
-  },
-  "MK2H4ZA/A|ifc mall": {
-   "absent": 0,
-   "last_seen": "2026-11-12T08:37:21.440408+08:00",
-   "start": "2026-11-12T08:37:21.440408+08:00"
-  },
-  "MK2K4ZA/A|ifc mall": {
-   "absent": 0,
-   "last_seen": "2026-11-12T08:37:21.440408+08:00",
-   "start": "2026-11-12T08:37:21.440408+08:00"
   }
  },
- "ring": {
-  "count": 1,
-  "label": "",
-  "next": 1794443874.7758455,
-  "part": "MK2H4ZA/A",
-  "since": 1794443844.775845,
-  "where": "ifc mall (Today at Apple ifc mall)"
- },
+ "ring": null,
  "stats": {
-  "cycles": 19,
+  "cycles": 21,
   "errors": 0
  }
 }
