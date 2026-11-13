@@ -1,29 +1,24 @@
 {
  "alerted": [],
  "baseline": "2027-01-23",
- "last_heartbeat": "2026-11-12",
- "last_poll": "2026-11-13T08:00:19.730611+08:00",
- "last_publish": 1794527830.357718,
+ "last_heartbeat": "2026-11-13",
+ "last_poll": "2026-11-13T08:02:04.866058+08:00",
+ "last_publish": 1794528022.2977128,
  "open": {
   "MK2D4ZA/A|ifc mall": {
    "absent": 0,
-   "last_seen": "2026-11-13T08:00:19.730611+08:00",
+   "last_seen": "2026-11-13T08:02:04.866058+08:00",
    "start": "2026-11-13T02:23:21.011192+08:00"
   },
   "MK2F4ZA/A|Canton Road": {
-   "absent": 0,
+   "absent": 1,
    "last_seen": "2026-11-13T08:00:19.730611+08:00",
    "start": "2026-11-13T08:00:19.730611+08:00"
-  },
-  "MK2F4ZA/A|New Town Plaza": {
-   "absent": 1,
-   "last_seen": "2026-11-13T07:58:59.321720+08:00",
-   "start": "2026-11-13T07:57:05.945809+08:00"
   }
  },
  "ring": null,
  "stats": {
-  "cycles": 545,
+  "cycles": 1,
   "errors": 0
  }
 }
