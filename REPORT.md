@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 3378 successful, 2 failed, from 2026-11-08 12:15:00 to 2026-11-14 23:53:27.
+- Checks: 3379 successful, 2 failed, from 2026-11-08 12:15:00 to 2026-11-14 23:53:40.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 4.
   - 11-08 18:05 → 11-08 19:52 (107 min): no watcher run active on GitHub (Apple not involved).
@@ -19,7 +19,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Summary
 
-- Restock postings recorded: **162** (batch sizes unknown), grouped into **67** waves; 3 posting(s) still live now.
+- Restock postings recorded: **162** (batch sizes unknown), grouped into **67** waves; 2 posting(s) still live now.
 - Minutes listed per posting: median 1 (range 1–2730); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
@@ -157,7 +157,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 
 | Posted | Gone | Minutes listed | Model | Store | Note |
 |---|---|---|---|---|---|
-| 2026-11-14 23:14 | (still live) | 37 | 256GB Night Sky | apm Hong Kong | ongoing |
+| 2026-11-14 23:14 | 2026-11-14 23:52 | 37 | 256GB Night Sky | apm Hong Kong |  |
 | 2026-11-14 15:02 | 2026-11-14 15:02 | 1 | 512GB Night Sky | apm Hong Kong |  |
 | 2026-11-14 14:30 | (still live) | 563 | 512GB Star White | ifc mall | ongoing |
 | 2026-11-14 14:30 | 2026-11-14 23:13 | 522 | 256GB Night Sky | ifc mall |  |
