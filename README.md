@@ -1,5 +1,7 @@
 # duo-watch
 
+> **Stopped 2026-11-17 07:42 HKT — goal reached** (iPhone Duo 1TB Star White bought at Apple Causeway Bay). Workflows disabled; data and channel kept for reuse. See [docs/RETROSPECTIVE.md](docs/RETROSPECTIVE.md).
+
 Watches Apple Store Hong Kong same-day pickup stock for all 8 iPhone Duo models, records every restock, and pushes phone alerts (ntfy) only for the alert models. Watch and alert only: no login, no bag, no checkout.
 
 - **Trend report:** [`REPORT.md` on the `data` branch](https://github.com/ryancwho/duo-watch/blob/data/REPORT.md), rebuilt within about a minute of any posting appearing or disappearing, and at least every 10 minutes: restocks by hour of day, store, model and day, plus restock waves.

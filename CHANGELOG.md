@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-17 Stopped: goal reached (1TB Star White bought at Causeway Bay ~07:40 HKT). Workflows disabled; retrospective and reuse checklist.
+
 - 2026-11-10 Watchdog workflow (called by every watcher run as its last step, plus every 20 min) restarts the listener if none is active; `scripts/health.py` health verdicts; repo rules, runbook and Listener Director brief.
 - 2026-11-10 Verified handover: each run starts the next, waits until it is really running, retries for up to 18 min, alerts if it cannot.
 - 2026-11-09 Report shows hours actually watched per clock hour and the cause of each gap.

@@ -1,6 +1,6 @@
 # LD — Listener maintenance board
 
-Status: OPS LIVE (watchdog + handover on main). T1 open. Cursor work waits until the Mac mini is online.
+Status: STOPPED 2026-11-17 07:42 HKT (goal reached). OPS schedule to be paused. T1 parked; see docs/RETROSPECTIVE.md "Fix before reuse".
 Dispatch issue: #1. Director brief: DIRECTOR_BRIEF.md.
 
 | Ticket | Title | Depends | Status |
