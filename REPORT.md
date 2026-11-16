@@ -1,6 +1,6 @@
 # iPhone Duo restock trend — Apple Store Hong Kong
 
-Updated 2026-11-16 09:03 HKT (last check 09:03). All times HKT.
+Updated 2026-11-16 09:15 HKT (last check 09:15). All times HKT.
 
 **How to read the counts.** Every number below counts **restock postings**, not phones. A posting is Apple's website starting to offer same-day pickup of one model at one store; it stays until that store's batch is sold out or withdrawn. **Batch size — how many iPhones each posting releases — is unknown**, because Apple publishes no quantities. One posting may be one phone or many.
 
@@ -8,7 +8,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 
 ## Coverage
 
-- Checks: 4031 successful, 2 failed, from 2026-11-08 12:15:00 to 2026-11-16 09:03:36.
+- Checks: 4036 successful, 2 failed, from 2026-11-08 12:15:00 to 2026-11-16 09:15:15.
 - Cadence: every ~2 min 06:30–23:30, every ~10 min overnight.
 - Monitoring gaps over 20 min in the last 7 days: 3.
   - 11-09 11:23 → 11-09 14:52 (209 min): no watcher run active on GitHub (Apple not involved).
@@ -19,7 +19,7 @@ A **wave** is a group of postings that start within 10 minutes of each other (fo
 ## Summary
 
 - Restock postings recorded: **168** (batch sizes unknown), grouped into **71** waves; 3 posting(s) still live now.
-- Minutes listed per posting: median 1 (range 1–4720); 1 means it was seen on a single check (gone within about 2 minutes).
+- Minutes listed per posting: median 1 (range 1–4732); 1 means it was seen on a single check (gone within about 2 minutes).
 
 ## By hour of day
 
@@ -36,7 +36,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 06:00 | 3 | 3 |  |  | 6 ██████ | 7.0 | 0.86 |
 | 07:00 | 18 | 31 |  |  | 49 ██████████████████████████████… | 7.3 | 6.69 |
 | 08:00 | 9 | 34 | 1 | 2 | 46 ██████████████████████████████… | 8.0 | 5.75 |
-| 09:00 | 4 | 14 |  |  | 18 ██████████████████ | 7.1 | 2.54 |
+| 09:00 | 4 | 14 |  |  | 18 ██████████████████ | 7.3 | 2.47 |
 | 10:00 | 1 | 11 |  |  | 12 ████████████ | 7.0 | 1.71 |
 | 11:00 |  | 3 |  |  | 3 ███ | 6.6 | 0.45 |
 | 12:00 |  | 1 |  |  | 1 █ | 6.7 | 0.15 |
@@ -95,11 +95,11 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 |---|---|---|---|---|
 | 2026-11-16 07:30 | 1 | apm Hong Kong | 512GB Night Sky | 1 |
 | 2026-11-16 07:17 | 1 | Causeway Bay | 512GB Night Sky | 1 |
-| 2026-11-16 06:39 | 2 | Canton Road | 256GB Night Sky, 512GB Night Sky | 144 |
+| 2026-11-16 06:39 | 2 | Canton Road | 256GB Night Sky, 512GB Night Sky | 155 |
 | 2026-11-15 07:22 | 2 | Canton Road | 256GB Night Sky, 512GB Night Sky | 282 |
 | 2026-11-14 23:14 | 1 | apm Hong Kong | 256GB Night Sky | 37 |
 | 2026-11-14 15:02 | 1 | apm Hong Kong | 512GB Night Sky | 1 |
-| 2026-11-14 14:30 | 2 | ifc mall | 256GB Night Sky, 512GB Star White | 2553 |
+| 2026-11-14 14:30 | 2 | ifc mall | 256GB Night Sky, 512GB Star White | 2564 |
 | 2026-11-14 13:50 | 2 | Causeway Bay | 256GB Night Sky, 512GB Star White | 38 |
 | 2026-11-14 09:44 | 1 | apm Hong Kong | 512GB Star White | 1 |
 | 2026-11-14 09:22 | 3 | Festival Walk, ifc mall | 512GB Night Sky, 512GB Star White | 20 |
@@ -115,7 +115,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 2026-11-13 07:10 | 1 | Causeway Bay | 512GB Star White | 1 |
 | 2026-11-13 03:14 | 1 | Canton Road | 512GB Star White | 233 |
 | 2026-11-13 03:03 | 1 | Canton Road | 256GB Star White | 1 |
-| 2026-11-13 02:23 | 1 | ifc mall | 256GB Star White | 4720 |
+| 2026-11-13 02:23 | 1 | ifc mall | 256GB Star White | 4732 |
 | 2026-11-13 01:23 | 1 | Canton Road | 256GB Star White | 50 |
 | 2026-11-12 15:37 | 1 | Canton Road | 512GB Star White | 7 |
 | 2026-11-12 14:39 | 1 | New Town Plaza | 512GB Star White | 24 |
@@ -160,13 +160,13 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 |---|---|---|---|---|---|
 | 2026-11-16 07:30 | 2026-11-16 07:30 | 1 | 512GB Night Sky | apm Hong Kong |  |
 | 2026-11-16 07:17 | 2026-11-16 07:17 | 1 | 512GB Night Sky | Causeway Bay |  |
-| 2026-11-16 06:39 | (still live) | 144 | 256GB Night Sky | Canton Road | ongoing |
+| 2026-11-16 06:39 | (still live) | 155 | 256GB Night Sky | Canton Road | ongoing |
 | 2026-11-16 06:39 | 2026-11-16 06:39 | 1 | 512GB Night Sky | Canton Road |  |
 | 2026-11-15 07:22 | 2026-11-15 12:04 | 282 | 256GB Night Sky | Canton Road |  |
 | 2026-11-15 07:22 | 2026-11-15 07:22 | 1 | 512GB Night Sky | Canton Road |  |
 | 2026-11-14 23:14 | 2026-11-14 23:52 | 37 | 256GB Night Sky | apm Hong Kong |  |
 | 2026-11-14 15:02 | 2026-11-14 15:02 | 1 | 512GB Night Sky | apm Hong Kong |  |
-| 2026-11-14 14:30 | (still live) | 2553 | 512GB Star White | ifc mall | ongoing |
+| 2026-11-14 14:30 | (still live) | 2564 | 512GB Star White | ifc mall | ongoing |
 | 2026-11-14 14:30 | 2026-11-14 23:13 | 522 | 256GB Night Sky | ifc mall |  |
 | 2026-11-14 13:55 | 2026-11-14 14:28 | 33 | 512GB Star White | Causeway Bay |  |
 | 2026-11-14 13:50 | 2026-11-14 14:28 | 38 | 256GB Night Sky | Causeway Bay |  |
@@ -195,7 +195,7 @@ Restock postings starting in each hour, by capacity (counts of postings, not pho
 | 2026-11-13 07:10 | 2026-11-13 07:10 | 1 | 512GB Star White | Causeway Bay |  |
 | 2026-11-13 03:14 | 2026-11-13 07:07 | 233 | 512GB Star White | Canton Road |  |
 | 2026-11-13 03:03 | 2026-11-13 03:03 | 1 | 256GB Star White | Canton Road |  |
-| 2026-11-13 02:23 | (still live) | 4720 | 256GB Star White | ifc mall | ongoing |
+| 2026-11-13 02:23 | (still live) | 4732 | 256GB Star White | ifc mall | ongoing |
 | 2026-11-13 01:23 | 2026-11-13 02:12 | 50 | 256GB Star White | Canton Road |  |
 | 2026-11-12 15:37 | 2026-11-12 15:43 | 7 | 512GB Star White | Canton Road |  |
 | 2026-11-12 14:39 | 2026-11-12 15:02 | 24 | 512GB Star White | New Town Plaza |  |
